@@ -1,5 +1,7 @@
-package org.codehaus.sonar.clirrplugin;
+package org.sonar.plugins.clirr;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ import org.sonar.plugins.api.EditableProperty;
 import org.sonar.plugins.api.Extension;
 
 @EditableProperties( { @EditableProperty(key = ClirrPlugin.CONFIG_MIN_SEVERITY, defaultValue = "warning", name = "Minimum severity to display for API breaks", description = "One of INFO, WARNING (default) or ERROR.") })
-public class ClirrPlugin implements org.sonar.plugins.api.Plugin {
+public final class ClirrPlugin implements org.sonar.plugins.api.Plugin {
 
 	public static final String CLIRR_PLUGIN_KEY = "clirr";
 	public static final String CLIRR_PLUGIN_NAME = "CLIRR";
@@ -26,7 +28,6 @@ public class ClirrPlugin implements org.sonar.plugins.api.Plugin {
 		List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
 		list.add(ClirrMetrics.class);
 		list.add(ClirrResultCollector.class);
-		list.add(ClirrJob.class);
 		list.add(ClirrRulesRepository.class);
 		return list;
 	}
@@ -43,5 +44,14 @@ public class ClirrPlugin implements org.sonar.plugins.api.Plugin {
 	@Override
 	public String toString() {
 		return getKey();
+	}
+
+	public static void safeClose(Closeable closeable) {
+		if (closeable != null) {
+			try {
+				closeable.close();
+			} catch (IOException e) {
+			}
+		}
 	}
 }

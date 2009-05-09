@@ -6,7 +6,7 @@
 	<packaging>jar</packaging>
 	<version>0.1-SNAPSHOT</version>
 	<name>Sonar Clirr Plugin</name>
-	<url>http://sonar-plugins.codehaus.org</url>
+	<url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
 	<description>CLIRR checks for API breaks</description>
 	<inceptionYear>2009</inceptionYear>
 	<parent>
@@ -72,7 +72,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Plugin-Class>org.codehaus.sonar.clirrplugin.ClirrPlugin</Plugin-Class>
+							<Plugin-Class>org.sonar.plugins.clirr.ClirrPlugin</Plugin-Class>
 						</manifestEntries>
 					</archive>
 				</configuration>
