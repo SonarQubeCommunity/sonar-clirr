@@ -1,7 +1,7 @@
 package org.sonar.plugins.clirr;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,14 +36,14 @@ public final class ClirrRulesRepository implements RulesRepository {
 	}
 
 	private void readMessagesAndDescriptions() {
-		InputStreamReader reader = null;
+		InputStream clirrRules = null;
 		try {
-			reader = new InputStreamReader(getClass().getResourceAsStream("ClirrRules.properties"));
-			clirrMessages.load(reader);
+			clirrRules = getClass().getResourceAsStream("ClirrRules.properties");
+			clirrMessages.load(clirrRules);
 		} catch (IOException e) {
 			LoggerFactory.getLogger(getClass()).error(ERROR_CANNOT_LOAD_RULE_DESCRIPTIONS, e);
 		} finally {
-			ClirrPlugin.safeClose(reader);
+			ClirrPlugin.safeClose(clirrRules);
 		}
 	}
 
