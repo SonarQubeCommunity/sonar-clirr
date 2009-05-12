@@ -72,7 +72,7 @@ public abstract class AbstractResultParser implements ClirrParser {
 		return testRule != null;
 	}
 
-	private RuleFailureLevel mapClirrSeverity(String severity) {
+	public static final RuleFailureLevel mapClirrSeverity(String severity) {
 		if ("ERROR".equalsIgnoreCase(severity)) {
 			return RuleFailureLevel.ERROR;
 		} else if ("WARNING".equalsIgnoreCase(severity)) {
