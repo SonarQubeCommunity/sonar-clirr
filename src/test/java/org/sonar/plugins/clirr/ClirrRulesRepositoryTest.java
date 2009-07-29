@@ -1,23 +1,28 @@
 package org.sonar.plugins.clirr;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
 import org.junit.Test;
+import org.sonar.api.rules.Rule;
 
 public class ClirrRulesRepositoryTest {
+
 	@Test
-	public void staticClirrRulesObeySonarContract() throws Exception {
-		ClirrRulesRepository repository = new ClirrRulesRepository();
-		List<org.sonar.commons.rules.Rule> rules = repository.getInitialReferential();
-		assertTrue(rules.size() > 0);
-		for (org.sonar.commons.rules.Rule rule : rules) {
-			assertNotNull(rule.getKey());
-			assertNotNull(rule.getDescription());
-			assertNotNull(rule.getConfigKey());
-			assertNotNull(rule.getName());
-		}
+	public void getInitialReferential() {
+		List<Rule> rules = new ClirrRulesRepository().getInitialReferential();
+		assertEquals(3, rules.size());
 	}
+
+	@Test
+	public void getRuleFromClirrViolation() {
+		ClirrViolation error = new ClirrViolation("ERROR", "", "", "");
+		assertEquals("clirr-binary", new ClirrRulesRepository().getRuleFromClirrViolation(error).getKey());
+		ClirrViolation warning = new ClirrViolation("WARNING", "", "", "");
+		assertEquals("clirr-behavior", new ClirrRulesRepository().getRuleFromClirrViolation(warning).getKey());
+		ClirrViolation info = new ClirrViolation("INFO", "", "", "");
+		assertEquals("clirr-newapi", new ClirrRulesRepository().getRuleFromClirrViolation(info).getKey());
+	}
+
 }

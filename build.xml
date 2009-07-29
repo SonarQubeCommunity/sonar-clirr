@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="project" default="default">
-    <target name="default">
-        <copy overwrite="true"
-        	file="target/clirr-0.1-SNAPSHOT.jar"
-        	todir="c:/work/sonar-1.8/extensions/plugins/"></copy>
-    </target>
-</project>
