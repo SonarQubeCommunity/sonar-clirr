@@ -13,7 +13,7 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
 	}
 
 	public String[] getGoals() {
-		return new String[] { "clirrs" };
+		return new String[] { "clirr" };
 	}
 
 	public String getGroupId() {
@@ -34,7 +34,7 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
 			plugin.setConfigParameter("comparisonVersion", comparisonVersion);
 		}
 
-		plugin.setConfigParameter("textOutputFile", ClirrPlugin.CLIRR_RESULT_TXT);
+		plugin.setConfigParameter("textOutputFile", "target/" + ClirrPlugin.CLIRR_RESULT_TXT);
 
 		String[] wildcardPatterns = project.getExclusionPatterns();
 		for (String excludePattern : wildcardPatterns) {

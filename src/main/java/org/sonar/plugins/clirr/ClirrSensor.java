@@ -69,8 +69,8 @@ public final class ClirrSensor implements Sensor {
 					newApi++;
 					break;
 				}
-				context.saveViolation(violation.getJavaClass(), rule, violation.getMessage(), activeRule.getPriority(),
-						0);
+				context.saveViolation(violation.getJavaClass(), activeRule.getRule(), violation.getMessage(),
+						activeRule.getPriority(), 0);
 			}
 		}
 		context.saveMeasure(javaClass, ClirrMetrics.TOTAL_API_CHANGES, (double) totalApiChanges);
