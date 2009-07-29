@@ -18,11 +18,11 @@ public class ClirrRulesRepositoryTest {
 	@Test
 	public void getRuleFromClirrViolation() {
 		ClirrViolation error = new ClirrViolation("ERROR", "", "", "");
-		assertEquals("clirr-binary", new ClirrRulesRepository().getRuleFromClirrViolation(error).getKey());
+		assertEquals("clirr-api-break", new ClirrRulesRepository().getRuleFromClirrViolation(error).getKey());
 		ClirrViolation warning = new ClirrViolation("WARNING", "", "", "");
-		assertEquals("clirr-behavior", new ClirrRulesRepository().getRuleFromClirrViolation(warning).getKey());
+		assertEquals("clirr-api-behavior-change", new ClirrRulesRepository().getRuleFromClirrViolation(warning).getKey());
 		ClirrViolation info = new ClirrViolation("INFO", "", "", "");
-		assertEquals("clirr-newapi", new ClirrRulesRepository().getRuleFromClirrViolation(info).getKey());
+		assertEquals("clirr-new-api", new ClirrRulesRepository().getRuleFromClirrViolation(info).getKey());
 	}
 
 }

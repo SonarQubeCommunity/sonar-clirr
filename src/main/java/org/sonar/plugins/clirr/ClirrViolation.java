@@ -1,30 +1,46 @@
 package org.sonar.plugins.clirr;
 
 import org.apache.commons.lang.StringUtils;
+import org.sonar.api.resources.JavaClass;
 
 public class ClirrViolation {
 
 	private final String messageId;
 	private final String message;
-	private final String affectedClass;
+	private final JavaClass resource;
 	private final String severity;
+	private Type type;
 
 	public ClirrViolation(String severity, String messageId, String message, String affectedClass) {
 		this.severity = severity;
-		this.affectedClass = filterInnerClass(affectedClass);
+		this.resource = getResource(affectedClass);
 		this.message = message;
 		this.messageId = messageId;
+		for (Type type : Type.values()) {
+			if (type.getClirrSeverity().equals(severity)) {
+				this.type = type;
+			}
+		}
+
 	}
 
-	private String filterInnerClass(String className) {
+	private JavaClass getResource(String className) {
 		if (StringUtils.isBlank(className) || className.indexOf("$") == -1) {
-			return className;
+			return new JavaClass(className);
 		}
-		return className.substring(0, className.indexOf("$"));
+		return new JavaClass(className.substring(0, className.indexOf("$")));
+	}
+
+	public JavaClass getJavaClass() {
+		return resource;
 	}
 
 	public String getSeverity() {
 		return severity;
+	}
+
+	public Type getType() {
+		return type;
 	}
 
 	public String getMessageId() {
@@ -35,8 +51,19 @@ public class ClirrViolation {
 		return message;
 	}
 
-	public String getAffectedClass() {
-		return affectedClass;
+	public enum Type {
+		BREAK("ERROR"), BEHAVIOR_CHANGE("WARNING"), NEW_API("INFO");
+
+		private String severity;
+
+		private Type(String clirrSeverity) {
+			this.severity = clirrSeverity;
+		}
+
+		public String getClirrSeverity() {
+			return severity;
+		}
+
 	}
 
 }

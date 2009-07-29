@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -36,19 +37,46 @@ public final class ClirrSensor implements Sensor {
 			executor.execute(clirrMavenHandler);
 			ClirrTxtResultParser clirrParser = new ClirrTxtResultParser();
 			File result = new File(project.getBuildDir(), ClirrPlugin.CLIRR_RESULT_TXT);
-			List<ClirrViolation> violations = clirrParser
-					.parse(new FileInputStream(result), project.getSourceCharset());
-			for (ClirrViolation violation : violations) {
-				Rule rule = rulesRepo.getRuleFromClirrViolation(violation);
-				ActiveRule activeRule = rulesProfile.getActiveRule(ClirrPlugin.CLIRR_PLUGIN_KEY, rule.getKey());
-				if (activeRule != null) {
-					context.saveViolation(new JavaClass(violation.getAffectedClass()), rule, violation
-							.getMessage(), activeRule.getPriority(), 0);
-				}
+			Map<JavaClass, List<ClirrViolation>> violationsByFile = clirrParser.parseToGetViolationsByResource(
+					new FileInputStream(result), project.getSourceCharset());
+			for (JavaClass javaClass : violationsByFile.keySet()) {
+				saveViolationsAndMeasures(context, javaClass, violationsByFile.get(javaClass));
 			}
+
 		} catch (IOException e) {
 			throw new SonarException("Clirr result file could not be read", e);
 		}
+	}
+
+	protected void saveViolationsAndMeasures(SensorContext context, JavaClass javaClass, List<ClirrViolation> violations) {
+		int totalApiChanges = 0;
+		int apiBreaks = 0;
+		int apiBehaviorChanges = 0;
+		int newApi = 0;
+		for (ClirrViolation violation : violations) {
+			Rule rule = rulesRepo.getRuleFromClirrViolation(violation);
+			ActiveRule activeRule = rulesProfile.getActiveRule(ClirrPlugin.CLIRR_PLUGIN_KEY, rule.getKey());
+			if (activeRule != null) {
+				totalApiChanges++;
+				switch (violation.getType()) {
+				case BREAK:
+					apiBreaks++;
+					break;
+				case BEHAVIOR_CHANGE:
+					apiBehaviorChanges++;
+					break;
+				case NEW_API:
+					newApi++;
+					break;
+				}
+				context.saveViolation(violation.getJavaClass(), rule, violation.getMessage(), activeRule.getPriority(),
+						0);
+			}
+		}
+		context.saveMeasure(javaClass, ClirrMetrics.TOTAL_API_CHANGES, (double) totalApiChanges);
+		context.saveMeasure(javaClass, ClirrMetrics.API_BREAKS, (double) apiBreaks);
+		context.saveMeasure(javaClass, ClirrMetrics.API_BEHAVIOR_CHANGES, (double) apiBehaviorChanges);
+		context.saveMeasure(javaClass, ClirrMetrics.NEW_API, (double) newApi);
 	}
 
 	public boolean shouldExecuteOnProject(Project project) {

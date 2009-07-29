@@ -1,0 +1,13 @@
+<% if measure('clirr-total-api-changes') %>
+  <div class="yui-gd">
+    <div class="yui-u first">
+      <div class="dashbox">
+        <h3>API Changes</h3>
+        <p><span class="big"><%= format_measure('clirr-total-api-changes', :url => url_for_drilldown('clirr-total-api-changes', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-')%></span></p>
+        <p><span"><%= format_measure('clirr-api-breaks', :suffix => ' API breaks', :url => url_for_drilldown('clirr-api-breaks', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-') %></span></p>
+        <p><span"><%= format_measure('clirr-api-behavior-changes', :suffix => ' API behavior changes', :url => url_for_drilldown('clirr-api-behavior-changes', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-') %></span></p>
+        <p><span"><%= format_measure('clirr-new-api', :suffix => ' new API', :url => url_for_drilldown('clirr-new-api', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-') %></span></p>
+      </div>
+    </div>
+  </div>
+<% end %>

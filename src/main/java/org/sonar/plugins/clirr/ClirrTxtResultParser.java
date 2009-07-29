@@ -6,8 +6,12 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
+
+import org.sonar.api.resources.JavaClass;
 
 public final class ClirrTxtResultParser {
 
@@ -26,6 +30,20 @@ public final class ClirrTxtResultParser {
 		}
 		reader.close();
 		return violations;
+	}
+
+	public Map<JavaClass, List<ClirrViolation>> parseToGetViolationsByResource(InputStream inputStream, Charset charset)
+			throws IOException {
+		Map<JavaClass, List<ClirrViolation>> violationsByFile = new HashMap<JavaClass, List<ClirrViolation>>();
+		for (ClirrViolation violation : parse(inputStream, charset)) {
+			List<ClirrViolation> violations = violationsByFile.get(violation.getJavaClass());
+			if (violations == null) {
+				violations = new ArrayList<ClirrViolation>();
+			}
+			violations.add(violation);
+			violationsByFile.put(violation.getJavaClass(), violations);
+		}
+		return violationsByFile;
 	}
 
 	private ClirrViolation parseViolationLine(String[] split) {

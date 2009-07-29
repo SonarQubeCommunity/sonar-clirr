@@ -1,19 +1,19 @@
 package org.sonar.plugins.clirr;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+import org.sonar.api.resources.JavaClass;
 
 public class ClirrViolationTest {
-	
+
 	@Test
-	public void getAffectedClass(){
+	public void getAffectedClass() {
 		ClirrViolation violation = new ClirrViolation("", "", "", this.getClass().getCanonicalName());
-		assertEquals("org.sonar.plugins.clirr.ClirrViolationTest", violation.getAffectedClass());
-		
+		assertEquals(new JavaClass("org.sonar.plugins.clirr.ClirrViolationTest"), violation.getJavaClass());
+
 		violation = new ClirrViolation("", "", "", this.getClass().getCanonicalName() + "$InnerClass");
-		assertEquals("org.sonar.plugins.clirr.ClirrViolationTest", violation.getAffectedClass());
+		assertEquals(new JavaClass("org.sonar.plugins.clirr.ClirrViolationTest"), violation.getJavaClass());
 	}
-	
 
 }

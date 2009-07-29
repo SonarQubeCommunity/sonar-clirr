@@ -9,7 +9,6 @@ import org.sonar.api.Properties;
 import org.sonar.api.Property;
 
 @Properties( {
-		@Property(key = "sonar.clirr.config.minSeverity", defaultValue = "warning", name = "Minimum severity to display for API breaks", description = "One of INFO, WARNING (default) or ERROR."),
 		@Property(key = ClirrPlugin.CLIRR_KEY_COMPARISON_VERSION, name = "By default, the Clirr Maven Plugin compares the current code against the latest released version. Use this parameter, if you want to compare your code against a particular version", project = true, module = true, global = false),
 		@Property(key = ClirrPlugin.CLIRR_KEY_EXECUTE, defaultValue = "false", name = "By default, the Clirr Maven Plugin is not activated. You need to explicitely activate it on any desired projects/modules.", project = true, module = true, global = false) })
 public final class ClirrPlugin implements Plugin {
@@ -23,7 +22,7 @@ public final class ClirrPlugin implements Plugin {
 	// This description will be displayed in the Configuration > Settings web
 	// page
 	public String getDescription() {
-		return "The CLIRR plugin measures API breaks. Code breaks are categorized by severity: INFO, WARNING and ERROR.";
+		return "The CLIRR plugin measures API breaks.";
 	}
 
 	// This is where you're going to declare all your Sonar extensions
@@ -32,6 +31,8 @@ public final class ClirrPlugin implements Plugin {
 		list.add(ClirrSensor.class);
 		list.add(ClirrRulesRepository.class);
 		list.add(ClirrMavenPluginHandler.class);
+		list.add(ClirrWidget.class);
+		list.add(ClirrDecorator.class);
 		return list;
 	}
 

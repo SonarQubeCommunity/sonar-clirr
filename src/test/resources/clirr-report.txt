@@ -1,4 +1,5 @@
 ERROR: 8001: org.sonar.plugins.api.AbstractLanguage: Class org.sonar.plugins.api.AbstractLanguage removed
+WARNING: 8002: org.sonar.plugins.api.AbstractLanguage: Class org.sonar.plugins.api.AbstractLanguage has changed
 ERROR: 8001: org.sonar.plugins.api.EditableProperties: Class org.sonar.plugins.api.EditableProperties removed
 ERROR: 8001: org.sonar.plugins.api.EditableProperty: Class org.sonar.plugins.api.EditableProperty removed
 ERROR: 8001: org.sonar.plugins.api.Extension: Class org.sonar.plugins.api.Extension removed
