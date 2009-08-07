@@ -44,9 +44,9 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   public void analyse(Project project, SensorContext context) {
     try {
       ClirrTxtResultParser clirrParser = new ClirrTxtResultParser();
-      File result = new File(project.getBuildDir(), ClirrPlugin.CLIRR_RESULT_TXT);
+      File result = new File(project.getFileSystem().getBuildDir(), ClirrPlugin.CLIRR_RESULT_TXT);
       Map<JavaFile, List<ClirrViolation>> violationsByFile = clirrParser.parseToGetViolationsByResource(
-          new FileInputStream(result), project.getSourceCharset());
+          new FileInputStream(result), project.getFileSystem().getSourceCharset());
       for (JavaFile JavaFile : violationsByFile.keySet()) {
         saveViolationsAndMeasures(context, JavaFile, violationsByFile.get(JavaFile));
       }
