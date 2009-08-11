@@ -21,7 +21,7 @@ public class ClirrDecorator extends AbstractSumChildrenDecorator {
 	 * {@inheritDoc}
 	 */
 	public boolean shouldExecuteOnProject(Project project) {
-		return project.getLanguage().equals(Java.KEY);
+		return project.getLanguage().equals(Java.INSTANCE);
 	}
 
 	protected boolean shouldSaveZeroIfNoChildMeasures() {

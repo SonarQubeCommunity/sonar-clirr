@@ -33,7 +33,7 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return project.getLanguage().equals(Java.KEY)
+    return project.getLanguage().equals(Java.INSTANCE)
         && project.getConfiguration().getBoolean(ClirrPlugin.CLIRR_KEY_EXECUTE, false);
   }
 
@@ -77,7 +77,7 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
             newApi++;
             break;
         }
-        context.saveViolation(new Violation(violation.getJavaFile(), activeRule.getRule()).setMessage(violation.getMessage()));
+        context.saveViolation(new Violation(activeRule.getRule(), violation.getJavaFile()).setMessage(violation.getMessage()));
       }
     }
     context.saveMeasure(JavaFile, ClirrMetrics.TOTAL_API_CHANGES, (double) totalApiChanges);

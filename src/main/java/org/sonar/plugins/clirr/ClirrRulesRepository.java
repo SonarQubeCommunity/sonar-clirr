@@ -67,7 +67,7 @@ public final class ClirrRulesRepository implements RulesRepository<Java> {
 	}
 
 	public Java getLanguage() {
-		return new Java();
+		return Java.INSTANCE;
 	}
 
 	public List<RulesProfile> getProvidedProfiles() {
