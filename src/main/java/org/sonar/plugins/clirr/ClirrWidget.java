@@ -1,11 +1,11 @@
 package org.sonar.plugins.clirr;
 
-import org.sonar.api.web.DashboardWidget;
+import org.sonar.api.web.AbstractDashboardWidget;
 
-public class ClirrWidget implements DashboardWidget {
+public class ClirrWidget extends AbstractDashboardWidget {
 
-	public String getTemplate() {
-		return "/clirrWidget.erb";
-	}
+  protected String getTemplatePath() {
+    return "/clirr_widget.html.erb";
+  }
 
 }

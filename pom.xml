@@ -1,33 +1,45 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.codehaus.sonar-plugins</groupId>
-  <artifactId>clirr</artifactId>
-  <version>0.1-SNAPSHOT</version>
-  <name>Sonar Clirr Plugin</name>
-  <url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
-  <description>CLIRR checks for API breaks</description>
-  <inceptionYear>2009</inceptionYear>
+
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <version>2</version>
     <relativePath>../parent</relativePath>
   </parent>
+  <groupId>org.codehaus.sonar-plugins</groupId>
+  <artifactId>sonar-clirr-plugin</artifactId>
+  <version>0.1-SNAPSHOT</version>
+
+  <name>Sonar Clirr Plugin</name>
+  <url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
+  <description>Clirr checks for API breaks</description>
+  <inceptionYear>2009</inceptionYear>
+
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/13867</url>
   </issueManagement>
+
   <developers>
     <developer>
       <name>Mike Haller</name>
       <email>info@mhaller.de</email>
       <timezone>+1</timezone>
     </developer>
+    <developer>
+      <id>simon.brandhof</id>
+      <name>Simon Brandhof</name>
+      <email>simon.brandhof@sonarsource.com</email>
+      <timezone>+1</timezone>
+    </developer>
   </developers>
+
   <properties>
-    <sonar.version>1.10</sonar.version>
+    <sonar.version>1.11-SNAPSHOT</sonar.version>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
@@ -42,15 +54,9 @@
       <type>test-jar</type>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>clirr-maven-plugin</artifactId>
-      <version>2.2.2</version>
-      <type>maven-plugin</type>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.6</version>
+      <version>4.7</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -60,11 +66,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/clirr</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/clirr</developerConnection>
     <url>http://svn.sonar-plugins.codehaus.org</url>
   </scm>
+
   <build>
     <plugins>
       <plugin>
@@ -82,7 +90,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
           <source>1.5</source>
           <target>1.5</target>
         </configuration>

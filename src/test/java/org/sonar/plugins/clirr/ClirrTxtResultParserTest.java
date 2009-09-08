@@ -6,7 +6,6 @@ import org.sonar.api.resources.JavaFile;
 
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Map;
 
 public class ClirrTxtResultParserTest {
 
@@ -22,12 +21,4 @@ public class ClirrTxtResultParserTest {
     assertEquals("Class org.sonar.plugins.api.AbstractLanguage removed", violations.get(0).getMessage());
   }
 
-  @Test
-  public void parseToGetViolationsByResource() throws Exception {
-    ClirrTxtResultParser clirrParser = new ClirrTxtResultParser();
-    Map<JavaFile, List<ClirrViolation>> violations = clirrParser.parseToGetViolationsByResource(
-        ClirrTxtResultParserTest.class.getResourceAsStream("/clirr-report.txt"), Charset.defaultCharset());
-    assertEquals(2, violations.get(new JavaFile("org.sonar.plugins.api.AbstractLanguage")).size());
-    assertEquals(3, violations.get(new JavaFile("org.sonar.plugins.api.web.gwt.client.webservices.WSMetrics")).size());
-  }
 }

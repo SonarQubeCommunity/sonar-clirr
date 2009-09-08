@@ -34,7 +34,7 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
       plugin.setParameter("comparisonVersion", comparisonVersion);
     }
 
-    plugin.setParameter("textOutputFile", "target/" + ClirrPlugin.CLIRR_RESULT_TXT);
+    plugin.setParameter("textOutputFile", project.getFileSystem().getSonarWorkingDirectory() + "/" + ClirrPlugin.CLIRR_RESULT_TXT);
 
     String[] wildcardPatterns = project.getExclusionPatterns();
     for (String excludePattern : wildcardPatterns) {
