@@ -29,6 +29,12 @@
       <timezone>+1</timezone>
     </developer>
     <developer>
+      <id>freddy.mallet</id>
+      <name>Freddy Mallet</name>
+      <email>freddy.mallet@sonarsource.com</email>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
       <id>simon.brandhof</id>
       <name>Simon Brandhof</name>
       <email>simon.brandhof@sonarsource.com</email>
