@@ -44,14 +44,9 @@ public class ClirrDecorator implements Decorator {
     int apiBehaviorChanges = MeasureUtils.sum(true, context.getChildrenMeasures(ClirrMetrics.API_BEHAVIOR_CHANGES)).intValue();
     int newApi = MeasureUtils.sum(true, context.getChildrenMeasures(ClirrMetrics.NEW_API)).intValue();
 
-    System.out.println("violations for " + resource + ": " + context.getViolations().size());
     for (Violation violation : context.getViolations()) {
-      System.out.println("rule api break from repo: " + rulesRepo.getApiBreakRule());
-      System.out.println("violation rule: " + violation.getRule());
-      System.out.println("equals: " + violation.getRule().equals(rulesRepo.getApiBreakRule()));
       if (violation.getRule().equals(rulesRepo.getApiBreakRule())) {
         apiBreaks++;
-        System.out.println("apibreak++");
       } else if (violation.getRule().equals(rulesRepo.getApiBehaviorChangeRule())) {
         apiBehaviorChanges++;
       } else if (violation.getRule().equals(rulesRepo.getNewApiRule())) {
