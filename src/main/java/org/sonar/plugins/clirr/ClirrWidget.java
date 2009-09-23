@@ -1,8 +1,8 @@
 package org.sonar.plugins.clirr;
 
-import org.sonar.api.web.views.AbstractRubyTemplate;
-import org.sonar.api.web.views.RubyRailsWidget;
-import org.sonar.api.web.views.UserRole;
+import org.sonar.api.web.AbstractRubyTemplate;
+import org.sonar.api.web.RubyRailsWidget;
+import org.sonar.api.web.UserRole;
 
 @UserRole(UserRole.VIEWER)
 public class ClirrWidget extends AbstractRubyTemplate implements RubyRailsWidget {
