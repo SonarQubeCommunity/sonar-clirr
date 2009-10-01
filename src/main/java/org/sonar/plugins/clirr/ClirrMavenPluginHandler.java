@@ -30,7 +30,7 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
 
   public void configure(Project project, MavenPlugin plugin) {
     String comparisonVersion = project.getConfiguration().getString(ClirrPlugin.CLIRR_KEY_COMPARISON_VERSION);
-    if (!StringUtils.isBlank(comparisonVersion)) {
+    if (StringUtils.isNotBlank(comparisonVersion)) {
       plugin.setParameter("comparisonVersion", comparisonVersion);
     }
 
@@ -40,9 +40,5 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
     for (String excludePattern : wildcardPatterns) {
       plugin.addParameter("excludes/exclude", excludePattern);
     }
-  }
-
-  public boolean dependsUponCustomRules() {
-    return false;
   }
 }

@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Properties({
-    @Property(key = ClirrPlugin.CLIRR_KEY_COMPARISON_VERSION, name = "Reference version", description = "By default, the Clirr Maven Plugin compares the current code against the latest released version. Use this parameter, if you want to compare your code against a particular version.", project = true, module = true, global = false),
-    @Property(key = ClirrPlugin.CLIRR_KEY_EXECUTE, defaultValue = "false", name = "Activation", description = "By default, the Clirr Maven Plugin is not activated. You need to explicitely activate it on any desired projects/modules.", project = true, module = true, global = false)})
+    @Property(key = ClirrPlugin.CLIRR_KEY_COMPARISON_VERSION, name = "Reference version", description = "By default, Clirr compares the current code against the latest released version. Use this parameter to compare your code against a particular version.", project = true, module = true, global = false),
+    @Property(key = ClirrPlugin.CLIRR_KEY_EXECUTE, defaultValue = "false", name = "Activation", description = "Clirr is not activated by default. You need to explicitly activate it on any desired projects/modules.", project = true, module = true, global = false)})
 public final class ClirrPlugin implements Plugin {
 
   public static final String CLIRR_PLUGIN_KEY = "clirr";
   public static final String CLIRR_PLUGIN_NAME = "Clirr";
   public static final String CLIRR_RESULT_TXT = "clirr-result.txt";
-  public static final String CLIRR_KEY_COMPARISON_VERSION = "sonar.clirr.config.comparisonVersion";
-  public static final String CLIRR_KEY_EXECUTE = "sonar.clirr.config.execute";
+  public static final String CLIRR_KEY_COMPARISON_VERSION = "sonar.clirr.comparisonVersion";
+  public static final String CLIRR_KEY_EXECUTE = "sonar.clirr.execute";
 
   // This description will be displayed in the Configuration > Settings web
   // page

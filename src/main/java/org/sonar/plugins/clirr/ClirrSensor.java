@@ -1,6 +1,7 @@
 package org.sonar.plugins.clirr;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -35,7 +36,7 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return project.getLanguage().equals(Java.INSTANCE)
+    return Java.INSTANCE.equals(project.getLanguage())
         && project.getConfiguration().getBoolean(ClirrPlugin.CLIRR_KEY_EXECUTE, false);
   }
 
@@ -52,15 +53,19 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   public void analyse(Project project, SensorContext context) {
     InputStream input = null;
     try {
-      File result = new File(project.getFileSystem().getSonarWorkingDirectory(), ClirrPlugin.CLIRR_RESULT_TXT);
-      input = new FileInputStream(result);
+      File report = new File(project.getFileSystem().getSonarWorkingDirectory(), ClirrPlugin.CLIRR_RESULT_TXT);
+      if (report.exists()) {
+        input = new FileInputStream(report);
 
-      ClirrTxtResultParser parser = new ClirrTxtResultParser();
-      List<ClirrViolation> violations = parser.parse(input, project.getFileSystem().getSourceCharset());
-      saveViolations(violations, context, project);
+        ClirrTxtResultParser parser = new ClirrTxtResultParser();
+        List<ClirrViolation> violations = parser.parse(input, project.getFileSystem().getSourceCharset());
+        saveViolations(violations, context, project);
+      } else {
+        LoggerFactory.getLogger(getClass()).info("Clirr report does not exist: " + report.getCanonicalPath());
+      }
 
     } catch (IOException e) {
-      throw new SonarException("Clirr result file could not be read", e);
+      throw new SonarException("Clirr report can not be loaded.", e);
 
     } finally {
       IOUtils.closeQuietly(input);
