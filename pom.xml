@@ -43,7 +43,7 @@
   </developers>
 
   <properties>
-    <sonar.version>1.11-SNAPSHOT</sonar.version>
+    <sonar.version>1.11</sonar.version>
   </properties>
 
   <dependencies>
