@@ -19,8 +19,6 @@ public final class ClirrPlugin implements Plugin {
   public static final String CLIRR_KEY_COMPARISON_VERSION = "sonar.clirr.comparisonVersion";
   public static final String CLIRR_KEY_EXECUTE = "sonar.clirr.execute";
 
-  // This description will be displayed in the Configuration > Settings web
-  // page
   public String getDescription() {
     return "The Clirr plugin measures API breaks.";
   }
@@ -34,6 +32,7 @@ public final class ClirrPlugin implements Plugin {
     list.add(ClirrDecorator.class);
     list.add(ClirrMetrics.class);
     list.add(ClirrWidget.class);
+    //list.add(ClirrPage.class);
     return list;
   }
 
