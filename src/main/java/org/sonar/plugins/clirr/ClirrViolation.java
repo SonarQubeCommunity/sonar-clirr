@@ -11,24 +11,24 @@ public class ClirrViolation {
   private final String severity;
   private Type type;
 
-  public ClirrViolation(String severity, String messageId, String message, String affectedClass) {
+  public ClirrViolation(final String severity, final String messageId, final String message, final String affectedClass) {
     this.severity = severity;
     this.resource = getResource(affectedClass);
     this.message = message;
     this.messageId = messageId;
-    for (Type type : Type.values()) {
-      if (type.getClirrSeverity().equals(severity)) {
-        this.type = type;
+    for (final Type aType : Type.values()) {
+      if (aType.getClirrSeverity().equals(severity)) {
+        this.type = aType;
       }
     }
 
   }
 
-  private JavaFile getResource(String className) {
-    if (StringUtils.isBlank(className) || className.indexOf("$") == -1) {
+  private JavaFile getResource(final String className) {
+    if (StringUtils.isBlank(className) || className.indexOf('$') == -1) {
       return new JavaFile(className);
     }
-    return new JavaFile(className.substring(0, className.indexOf("$")));
+    return new JavaFile(className.substring(0, className.indexOf('$')));
   }
 
   public JavaFile getJavaFile() {
@@ -56,7 +56,7 @@ public class ClirrViolation {
 
     private String severity;
 
-    private Type(String clirrSeverity) {
+    private Type(final String clirrSeverity) {
       this.severity = clirrSeverity;
     }
 

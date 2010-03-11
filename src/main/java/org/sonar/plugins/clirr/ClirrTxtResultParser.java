@@ -13,6 +13,12 @@ import java.util.regex.Pattern;
 
 public final class ClirrTxtResultParser {
 
+	private static final int FIELDCOUNT = 4;
+	private static final int IDX_SEVERITY = 0;
+	private static final int IDX_ERRCODE = 1;
+	private static final int IDX_CLASS = 2;
+	private static final int IDX_MESSAGE = 3;
+
 	public List<ClirrViolation> parse(final InputStream input, final Charset charset)
 			throws IOException {
 		return parse(new InputStreamReader(input, charset));
@@ -23,14 +29,15 @@ public final class ClirrTxtResultParser {
 		List<String> lines = IOUtils.readLines(input);
 		for (String line : lines) {
 			String[] split = line.split(Pattern.quote(":"));
-			if (split.length >= 4) {
+			if (split.length >= FIELDCOUNT) {
 				violations.add(parseViolationLine(split));
 			}
 		}
 		return violations;
 	}
 
-  private ClirrViolation parseViolationLine(String[] split) {
-    return new ClirrViolation(split[0].trim(), split[1].trim(), split[3].trim(), split[2].trim());
-  }
+	private ClirrViolation parseViolationLine(String[] split) {
+		return new ClirrViolation(split[IDX_SEVERITY].trim(), split[IDX_ERRCODE].trim(),
+				split[IDX_MESSAGE].trim(), split[IDX_CLASS].trim());
+	}
 }

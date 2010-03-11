@@ -1,5 +1,11 @@
 package org.sonar.plugins.clirr;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
@@ -15,12 +21,6 @@ import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
 
@@ -77,8 +77,8 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
       Rule rule = rulesRepo.getRuleFromClirrViolation(violation);
       ActiveRule activeRule = rulesProfile.getActiveRule(ClirrPlugin.CLIRR_PLUGIN_KEY, rule.getKey());
       if (activeRule != null) {
-        Resource resource = violation.getJavaFile();
-        if (context.getResource(resource.getKey()) == null) {
+        Resource<?> resource = violation.getJavaFile();
+        if (context.getResource(resource) == null) {
           resource = project;
         }
         context.saveViolation(new Violation(activeRule.getRule(), resource).setMessage(violation.getMessage()));

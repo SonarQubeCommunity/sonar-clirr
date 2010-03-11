@@ -24,7 +24,7 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface I18nConstants extends Constants {
 
-  static I18nConstants INSTANCE = GWT.create(I18nConstants.class);
+  I18nConstants INSTANCE = GWT.create(I18nConstants.class);
 
   @DefaultStringValue("API Changes")
   String title();
