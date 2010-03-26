@@ -1,1 +1,36 @@
-to do
+<h1>API Changes</h1>
+<table class="data">
+    <thead>
+        <tr>
+            <th width="1%">Priority</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%
+        conditions=[]
+        values={}
+       
+      conditions << 'snapshots.root_snapshot_id=:root_sid'
+      values[:root_sid] = (@snapshot.root_snapshot_id || @snapshot.id)
+
+      conditions << 'snapshots.path LIKE :path'
+      values[:path]="#{@snapshot.path}#{@snapshot.id}.%"
+       
+           
+        conditions << 'rule_id IN (:rule_ids)'
+        values[:rule_ids] = Rule.find(:all, :conditions => {'plugin_name'=>'clirr'}).select {|rule| rule.id}
+       
+        violations = RuleFailure.find(:all,
+              :conditions => ['(snapshots.id=? OR snapshots.root_snapshot_id=? OR snapshots.path LIKE ?) ',@snapshot.id, @snapshot.id, "#{@snapshot.path}#{@snapshot.id}.%"],
+              :include => [:snapshot, :rule],
+              :order => 'rule_failures.failure_level DESC')
+       
+        violations.each do |violation|
+        %>
+            <tr class="<%= cycle('even', 'odd')-%>">
+            <td><img src="<%= ApplicationController.root_context -%>/images/priority/<%= violation.failure_level -%>.gif"></td>
+            <td><%= violation.message %></td></tr>
+        <% end %>
+    </tbody>
+</table>

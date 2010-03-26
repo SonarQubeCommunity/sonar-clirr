@@ -127,28 +127,28 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>1.2</version>
-        <executions>
-          <execution>
-            <configuration>
-              <modules>
-                <module>org.sonar.plugins.clirr.GwtClirrPage</module>
-              </modules>
-              <skip>${skipGwt}</skip>
-              <webappDirectory>${project.build.directory}/classes</webappDirectory>
+      <!--<plugin>-->
+        <!--<groupId>org.codehaus.mojo</groupId>-->
+        <!--<artifactId>gwt-maven-plugin</artifactId>-->
+        <!--<version>1.2</version>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<configuration>-->
+              <!--<modules>-->
+                <!--<module>org.sonar.plugins.clirr.GwtClirrPage</module>-->
+              <!--</modules>-->
+              <!--<skip>${skipGwt}</skip>-->
+              <!--<webappDirectory>${project.build.directory}/classes</webappDirectory>-->
 
-              <!-- do not break on two lines -->
-              <extraJvmArgs>-Xmx512m -Dgwt.jjs.permutationWorkerFactory=com.google.gwt.dev.ThreadedPermutationWorkerFactory</extraJvmArgs>
-            </configuration>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+              <!--&lt;!&ndash; do not break on two lines &ndash;&gt;-->
+              <!--<extraJvmArgs>-Xmx512m -Dgwt.jjs.permutationWorkerFactory=com.google.gwt.dev.ThreadedPermutationWorkerFactory</extraJvmArgs>-->
+            <!--</configuration>-->
+            <!--<goals>-->
+              <!--<goal>compile</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
     </plugins>
   </build>
 </project>

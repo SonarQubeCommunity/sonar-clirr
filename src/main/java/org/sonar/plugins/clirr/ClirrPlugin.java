@@ -32,7 +32,7 @@ public final class ClirrPlugin implements Plugin {
     list.add(ClirrDecorator.class);
     list.add(ClirrMetrics.class);
     list.add(ClirrWidget.class);
-    //list.add(ClirrPage.class);
+    list.add(ClirrPage.class);
     return list;
   }
 

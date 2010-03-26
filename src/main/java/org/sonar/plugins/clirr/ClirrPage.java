@@ -20,23 +20,26 @@
 package org.sonar.plugins.clirr;
 
 import org.sonar.api.resources.Resource;
-import org.sonar.api.web.GwtPage;
-import org.sonar.api.web.NavigationSection;
-import org.sonar.api.web.ResourceQualifier;
-import org.sonar.api.web.UserRole;
+import org.sonar.api.web.*;
 import org.sonar.plugins.clirr.client.GwtClirrPage;
 
 @NavigationSection(NavigationSection.RESOURCE)
 @UserRole(UserRole.USER)
 @ResourceQualifier({Resource.QUALIFIER_PROJECT,Resource.QUALIFIER_MODULE,Resource.QUALIFIER_PACKAGE})
-public class ClirrPage extends GwtPage {
+public class ClirrPage extends AbstractRubyTemplate implements RubyRailsPage {
+
+
+  public String getId() {
+    return "clirr";
+  }
 
   public String getTitle() {
     return "API Changes";
   }
 
-  public String getGwtId() {
-    return GwtClirrPage.GWT_ID;
+  @Override
+  protected String getTemplatePath() {
+    return "/Users/SimonBrandhof/projects/sonar-plugins/trunk/clirr/src/main/resources/clirr_page.html.erb";
   }
 }
 
