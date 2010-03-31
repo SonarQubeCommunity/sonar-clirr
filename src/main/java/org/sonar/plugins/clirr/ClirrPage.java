@@ -39,7 +39,7 @@ public class ClirrPage extends AbstractRubyTemplate implements RubyRailsPage {
 
   @Override
   protected String getTemplatePath() {
-    return "/Users/SimonBrandhof/projects/sonar-plugins/trunk/clirr/src/main/resources/clirr_page.html.erb";
+    return "/clirr_page.html.erb";
   }
 }
 
