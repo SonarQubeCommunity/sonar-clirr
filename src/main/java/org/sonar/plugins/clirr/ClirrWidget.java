@@ -16,6 +16,6 @@ public class ClirrWidget extends AbstractRubyTemplate implements RubyRailsWidget
   }
 
   protected String getTemplatePath() {
-    return "/clirr_widget.html.erb";
+    return "/org/sonar/plugins/clirr/clirr_widget.html.erb";
   }
 }

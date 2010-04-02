@@ -21,7 +21,6 @@ package org.sonar.plugins.clirr;
 
 import org.sonar.api.resources.Resource;
 import org.sonar.api.web.*;
-import org.sonar.plugins.clirr.client.GwtClirrPage;
 
 @NavigationSection(NavigationSection.RESOURCE)
 @UserRole(UserRole.USER)
@@ -39,7 +38,7 @@ public class ClirrPage extends AbstractRubyTemplate implements RubyRailsPage {
 
   @Override
   protected String getTemplatePath() {
-    return "/clirr_page.html.erb";
+    return "/org/sonar/plugins/clirr/clirr_page.html.erb";
   }
 }
 
