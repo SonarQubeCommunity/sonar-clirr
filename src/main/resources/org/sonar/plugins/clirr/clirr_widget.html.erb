@@ -1,13 +1,21 @@
-<% if measure('clirr_total_api_changes') %>
-  <div class="yui-gd">
-    <div class="yui-u first">
+<%
+total_api=measure('clirr_total_api_changes')
+if total_api
+  api_breaks=measure('clirr_api_breaks')
+  api_behavior_change=measure('clirr_api_behavior_changes')
+  new_api=measure('clirr_new_api')
+%>
       <div class="dashbox">
         <h3>API Changes</h3>
-        <p><span class="big"><%= format_measure('clirr_total_api_changes', :url => url_for_drilldown('clirr_total_api_changes', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-')%></span></p>
-        <p><span"><%= format_measure('clirr_api_breaks', :suffix => ' API breaks', :url => url_for_drilldown('clirr_api_breaks', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-') %></span></p>
-        <p><span"><%= format_measure('clirr_api_behavior_changes', :suffix => ' API behavior changes', :url => url_for_drilldown('clirr_api_behavior_changes', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-') %></span></p>
-        <p><span"><%= format_measure('clirr_new_api', :suffix => ' new API', :url => url_for_drilldown('clirr_new_api', {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}), :default => '-') %></span></p>
-      </div>
-    </div>
+        <p><span class="big"><%= format_measure(total_api, :url => url_for_drilldown(total_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}))%></span></p>
+        <% if api_breaks %>
+        <p><span"><%= format_measure(api_breaks, :suffix => ' API breaks', :url => url_for_drilldown(api_breaks, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+        <% end %>
+        <% if api_behavior_change %>
+        <p><span"><%= format_measure(api_behavior_change, :suffix => ' API behavior changes', :url => url_for_drilldown(api_behavior_change, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+        <% end %>
+        <% if new_api %>
+        <p><span"><%= format_measure(new_api, :suffix => ' new API', :url => url_for_drilldown(new_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+        <% end %>
   </div>
 <% end %>

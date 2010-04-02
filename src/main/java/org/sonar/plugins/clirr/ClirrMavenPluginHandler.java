@@ -1,12 +1,36 @@
+/*
+ * Sonar, open source software quality management tool.
+ * Copyright (C) 2009 SonarSource SA
+ * mailto:contact AT sonarsource DOT com
+ *
+ * Sonar is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * Sonar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Sonar; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
 package org.sonar.plugins.clirr;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.batch.maven.MavenPluginHandler;
 import org.sonar.api.batch.maven.MavenUtils;
 import org.sonar.api.resources.Project;
 
 public final class ClirrMavenPluginHandler implements MavenPluginHandler {
+
+  private ClirrConfiguration configuration;
+
+  public ClirrMavenPluginHandler(ClirrConfiguration configuration) {
+    this.configuration = configuration;
+  }
 
   public String getArtifactId() {
     return "clirr-maven-plugin";
@@ -29,12 +53,11 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
   }
 
   public void configure(Project project, MavenPlugin plugin) {
-    String comparisonVersion = project.getConfiguration().getString(ClirrPlugin.CLIRR_KEY_COMPARISON_VERSION);
-    if (StringUtils.isNotBlank(comparisonVersion)) {
-      plugin.setParameter("comparisonVersion", comparisonVersion);
+    if (configuration.hasComparisonVersion()) {
+      plugin.setParameter("comparisonVersion", configuration.getComparisonVersion());
     }
 
-    plugin.setParameter("textOutputFile", project.getFileSystem().getSonarWorkingDirectory() + "/" + ClirrPlugin.CLIRR_RESULT_TXT);
+    plugin.setParameter("textOutputFile", project.getFileSystem().getSonarWorkingDirectory() + "/" + ClirrConstants.RESULT_TXT);
 
     String[] wildcardPatterns = project.getExclusionPatterns();
     for (String excludePattern : wildcardPatterns) {

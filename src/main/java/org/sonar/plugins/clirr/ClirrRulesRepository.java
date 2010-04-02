@@ -21,8 +21,8 @@ public final class ClirrRulesRepository implements RulesRepository<Java> {
 
   public ClirrRulesRepository() {
     apiBreakRule = new Rule(
-        ClirrPlugin.CLIRR_PLUGIN_KEY,
-        "clirr-api-break",
+        ClirrConstants.PLUGIN_KEY,
+        ClirrConstants.RULE_API_BREAK,
         "API Change breaks the backward binary compatibility",
         Iso9126RulesCategories.PORTABILITY,
         RulePriority.CRITICAL);
@@ -31,8 +31,8 @@ public final class ClirrRulesRepository implements RulesRepository<Java> {
     rules.add(apiBreakRule);
 
     apiBehaviorChangeRule = new Rule(
-        ClirrPlugin.CLIRR_PLUGIN_KEY,
-        "clirr-api-behavior-change",
+        ClirrConstants.PLUGIN_KEY,
+        ClirrConstants.RULE_API_BEHAVIOR_CHANGE,
         "API Change might change runtime expected behavior",
         Iso9126RulesCategories.PORTABILITY,
         RulePriority.MAJOR);
@@ -41,8 +41,8 @@ public final class ClirrRulesRepository implements RulesRepository<Java> {
     rules.add(apiBehaviorChangeRule);
 
     newApiRule = new Rule(
-        ClirrPlugin.CLIRR_PLUGIN_KEY,
-        "clirr-new-api",
+        ClirrConstants.PLUGIN_KEY,
+        ClirrConstants.RULE_NEW_API,
         "API Change adds new feature without breaking anything",
         Iso9126RulesCategories.PORTABILITY, RulePriority.INFO);
     newApiRule.setDescription("Clirr reports this information messages when new features have been added without breaking backward compatibility in any way.");

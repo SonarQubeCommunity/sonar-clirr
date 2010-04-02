@@ -1,3 +1,22 @@
+/*
+ * Sonar, open source software quality management tool.
+ * Copyright (C) 2009 SonarSource SA
+ * mailto:contact AT sonarsource DOT com
+ *
+ * Sonar is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * Sonar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Sonar; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
 package org.sonar.plugins.clirr;
 
 import org.sonar.api.Extension;
@@ -9,19 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Properties({
-    @Property(key = ClirrPlugin.CLIRR_KEY_COMPARISON_VERSION, name = "Reference version", description = "By default, Clirr compares the current code against the latest released version. Use this parameter to compare your code against a particular version.", project = true, module = true, global = false),
-    @Property(key = ClirrPlugin.CLIRR_KEY_EXECUTE, defaultValue = "false", name = "Activation", description = "Clirr is not activated by default. You need to explicitly activate it on any desired projects/modules.", project = true, module = true, global = false)})
+    @Property(key = ClirrConstants.COMPARISON_VERSION_PROPERTY, name = "Reference version", description = "By default, Clirr compares the current code against the latest released version. Use this parameter to compare your code against a particular version.", project = true, module = true, global = false)
+})
 public final class ClirrPlugin implements Plugin {
-
-  public static final String CLIRR_PLUGIN_KEY = "clirr";
-  public static final String CLIRR_PLUGIN_NAME = "Clirr";
-  public static final String CLIRR_RESULT_TXT = "clirr-result.txt";
-  public static final String CLIRR_KEY_COMPARISON_VERSION = "sonar.clirr.comparisonVersion";
-  public static final String CLIRR_KEY_EXECUTE = "sonar.clirr.execute";
-
-  public String getDescription() {
-    return "The Clirr plugin measures API breaks.";
-  }
 
   // This is where you're going to declare all your Sonar extensions
   public List<Class<? extends Extension>> getExtensions() {
@@ -33,17 +42,22 @@ public final class ClirrPlugin implements Plugin {
     list.add(ClirrMetrics.class);
     list.add(ClirrWidget.class);
     list.add(ClirrPage.class);
+    list.add(ClirrConfiguration.class);
     return list;
   }
 
   // The key which uniquely identifies your plugin among all others Sonar
   // plugins
   public String getKey() {
-    return CLIRR_PLUGIN_KEY;
+    return ClirrConstants.PLUGIN_KEY;
   }
 
   public String getName() {
-    return CLIRR_PLUGIN_NAME;
+    return ClirrConstants.PLUGIN_NAME;
+  }
+
+  public String getDescription() {
+    return "The Clirr plugin measures API breaks.";
   }
 
   @Override

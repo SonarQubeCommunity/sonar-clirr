@@ -1,9 +1,34 @@
-<h1>API Changes</h1>
+<%
+total_api=@snapshot.measure('clirr_total_api_changes')
+api_breaks=@snapshot.measure('clirr_api_breaks')
+api_behavior_change=@snapshot.measure('clirr_api_behavior_changes')
+new_api=@snapshot.measure('clirr_new_api')
+
+if total_api.nil?
+%>
+<p>No data</p>
+<% else %>
+<div class="dashbox">
+  <h3>API Changes</h3>
+  <p><span class="big"><%= format_measure(total_api, :url => url_for_drilldown(total_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}))%></span></p>
+  <% if api_breaks %>
+  <p><span"><%= format_measure(api_breaks, :suffix => ' API breaks', :url => url_for_drilldown(api_breaks, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+  <% end %>
+  <% if api_behavior_change %>
+  <p><span"><%= format_measure(api_behavior_change, :suffix => ' API behavior changes', :url => url_for_drilldown(api_behavior_change, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+  <% end %>
+  <% if new_api %>
+  <p><span"><%= format_measure(new_api, :suffix => ' new API', :url => url_for_drilldown(new_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+  <% end %>
+</div>
+
+<br/>
+<br/>
 <table class="data">
     <thead>
         <tr>
-            <th width="1%">Priority</th>
-            <th>Message</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -34,3 +59,4 @@
         <% end %>
     </tbody>
 </table>
+<% end %>
