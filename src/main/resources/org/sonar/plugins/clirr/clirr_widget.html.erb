@@ -7,15 +7,15 @@ if total_api
 %>
       <div class="dashbox">
         <h3>API Changes</h3>
-        <p><span class="big"><%= format_measure(total_api, :url => url_for_drilldown(total_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}))%></span></p>
+        <p><span class="big"><%= format_measure(total_api, :url => "#{ApplicationController.root_context}/plugins/resource/#{@project.id}?page=clirr" )%></span></p>
         <% if api_breaks %>
-        <p><span"><%= format_measure(api_breaks, :suffix => ' API breaks', :url => url_for_drilldown(api_breaks, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+        <p><span"><%= format_measure(api_breaks, :suffix => ' API breaks', :url => url_for(:controller => 'drilldown', :action => 'violations', :id => @project.id, :rule => 'clirr:clirr-api-break')) %></span></p>
         <% end %>
         <% if api_behavior_change %>
-        <p><span"><%= format_measure(api_behavior_change, :suffix => ' API behavior changes', :url => url_for_drilldown(api_behavior_change, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+        <p><span"><%= format_measure(api_behavior_change, :suffix => ' API behavior changes', :url => url_for(:controller => 'drilldown', :action => 'violations', :id => @project.id, :rule => 'clirr:clirr-api-behavior-change')) %></span></p>
         <% end %>
         <% if new_api %>
-        <p><span"><%= format_measure(new_api, :suffix => ' new API', :url => url_for_drilldown(new_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+        <p><span"><%= format_measure(new_api, :suffix => ' new API', :url => "#{ApplicationController.root_context}/plugins/resource/#{@project.id}?page=clirr") %></span></p>
         <% end %>
   </div>
 <% end %>
