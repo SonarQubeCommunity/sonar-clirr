@@ -1,8 +1,4 @@
 /*
- * Sonar, open source software quality management tool.
- * Copyright (C) 2009 SonarSource SA
- * mailto:contact AT sonarsource DOT com
- *
  * Sonar is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -36,7 +32,7 @@ public class ClirrConfiguration implements BatchExtension {
   }
 
   public boolean isActive() {
-    return isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive();
+    return configuration.getBoolean(ClirrConstants.API_PROPERTY, false) && (isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive());
   }
 
   public String getComparisonVersion() {

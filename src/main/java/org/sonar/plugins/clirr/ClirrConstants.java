@@ -1,8 +1,4 @@
 /*
- * Sonar, open source software quality management tool.
- * Copyright (C) 2009 SonarSource SA
- * mailto:contact AT sonarsource DOT com
- *
  * Sonar is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -29,6 +25,7 @@ public interface ClirrConstants {
   String RULE_API_BEHAVIOR_CHANGE = "clirr-api-behavior-change";
 
   String RESULT_TXT = "clirr-result.txt";
-  String COMPARISON_VERSION_PROPERTY = "sonar.clirr.comparisonVersion";  
+  String COMPARISON_VERSION_PROPERTY = "sonar.clirr.comparisonVersion";
 
+  String API_PROPERTY = "sonar.clirr.api";
 }

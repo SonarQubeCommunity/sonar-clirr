@@ -1,8 +1,4 @@
 /*
- * Sonar, open source software quality management tool.
- * Copyright (C) 2009 SonarSource SA
- * mailto:contact AT sonarsource DOT com
- *
  * Sonar is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -28,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Properties({
-    @Property(key = ClirrConstants.COMPARISON_VERSION_PROPERTY, name = "Reference version", description = "By default, Clirr compares the current code against the latest released version. Use this parameter to compare your code against a particular version.", project = true, module = true, global = false)
+    @Property(key = ClirrConstants.COMPARISON_VERSION_PROPERTY, name = "Reference version", description = "By default, Clirr compares the current code against the latest released version. Use this parameter to compare your code against a particular version.", project = true, module = true, global = false),
+    @Property(key = ClirrConstants.API_PROPERTY, defaultValue = "false", name = "API", description = "Only API projects are checked. Set to true if this project is considered as an API. Default is false.", project = true, module = true, global = false)
 })
 public final class ClirrPlugin implements Plugin {
 
@@ -57,7 +54,7 @@ public final class ClirrPlugin implements Plugin {
   }
 
   public String getDescription() {
-    return "The Clirr plugin measures API breaks.";
+    return "Clirr checks Java libraries for binary and source compatibility with older releases. Basically Clirr dumps out a list of changes in the public api. It prevents accidental introduction of binary or source compatibility problems between two versions.";
   }
 
   @Override
