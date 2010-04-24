@@ -66,7 +66,7 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
         ClirrTxtResultParser parser = new ClirrTxtResultParser();
         List<ClirrViolation> violations = parser.parse(input, project.getFileSystem().getSourceCharset());
         saveViolations(violations, context, project);
-        
+
       } else {
         LoggerFactory.getLogger(getClass()).info("Clirr report does not exist: " + report.getCanonicalPath());
       }
@@ -93,4 +93,8 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
     }
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }

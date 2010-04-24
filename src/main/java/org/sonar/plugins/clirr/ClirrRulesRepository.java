@@ -42,7 +42,9 @@ public final class ClirrRulesRepository implements RulesRepository<Java> {
         "API Change breaks the backward binary compatibility",
         Iso9126RulesCategories.PORTABILITY,
         RulePriority.CRITICAL);
-    apiBreakRule.setDescription("Clirr reports this violation for cases where it is possible to get a run-time failure. Whether one actually occurs can depend upon the way the library is called, ie changes reported as an error may in fact work when used as long as the patterns of use of the library do not trigger the failure situation.");
+    apiBreakRule.setDescription("Clirr reports this violation for cases where it is possible to get a run-time failure." +
+        " Whether one actually occurs can depend upon the way the library is called, ie changes reported as an error may" +
+        " in fact work when used as long as the patterns of use of the library do not trigger the failure situation.");
     apiBreakRule.setConfigKey(apiBreakRule.getKey());
     rules.add(apiBreakRule);
 
@@ -52,7 +54,8 @@ public final class ClirrRulesRepository implements RulesRepository<Java> {
         "API Change might change runtime expected behavior",
         Iso9126RulesCategories.PORTABILITY,
         RulePriority.MAJOR);
-    apiBehaviorChangeRule.setDescription("Clirr reports this violation for situations where no link or runtime exception will occur, but where the application may behave unexpectedly due to the changes that have occurred.");
+    apiBehaviorChangeRule.setDescription("Clirr reports this violation for situations where no link or runtime exception will occur," +
+        " but where the application may behave unexpectedly due to the changes that have occurred.");
     apiBehaviorChangeRule.setConfigKey(apiBehaviorChangeRule.getKey());
     rules.add(apiBehaviorChangeRule);
 
@@ -61,7 +64,8 @@ public final class ClirrRulesRepository implements RulesRepository<Java> {
         ClirrConstants.RULE_NEW_API,
         "API Change adds new feature without breaking anything",
         Iso9126RulesCategories.PORTABILITY, RulePriority.INFO);
-    newApiRule.setDescription("Clirr reports this information messages when new features have been added without breaking backward compatibility in any way.");
+    newApiRule.setDescription("Clirr reports this information messages when new features have been added without breaking backward" +
+        " compatibility in any way.");
     newApiRule.setConfigKey(newApiRule.getKey());
     rules.add(newApiRule);
   }

@@ -32,7 +32,8 @@ public class ClirrConfiguration implements BatchExtension {
   }
 
   public boolean isActive() {
-    return configuration.getBoolean(ClirrConstants.API_PROPERTY, false) && (isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive());
+    return configuration.getBoolean(ClirrConstants.API_PROPERTY, false)
+        && (isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive());
   }
 
   public String getComparisonVersion() {
