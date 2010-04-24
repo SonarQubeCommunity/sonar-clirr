@@ -10,15 +10,15 @@ if total_api.nil?
 <% else %>
 <div class="dashbox">
   <h3>API Changes</h3>
-  <p><span class="big"><%= format_measure(total_api, :url => url_for_drilldown(total_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'}))%></span></p>
+  <p><span class="big"><%= format_measure(total_api )%></span></p>
   <% if api_breaks %>
-  <p><span"><%= format_measure(api_breaks, :suffix => ' API breaks', :url => url_for_drilldown(api_breaks, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+  <p><span"><%= format_measure(api_breaks, :suffix => ' API breaks') %></span></p>
   <% end %>
   <% if api_behavior_change %>
-  <p><span"><%= format_measure(api_behavior_change, :suffix => ' API behavior changes', :url => url_for_drilldown(api_behavior_change, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+  <p><span"><%= format_measure(api_behavior_change, :suffix => ' API behavior changes') %></span></p>
   <% end %>
   <% if new_api %>
-  <p><span"><%= format_measure(new_api, :suffix => ' new API', :url => url_for_drilldown(new_api, {:viewer_plugin_key => 'org.sonar.plugins.core.violationsviewer.ViolationsViewer'})) %></span></p>
+  <p><span"><%= format_measure(new_api, :suffix => ' new API') %></span></p>
   <% end %>
 </div>
 
@@ -36,11 +36,11 @@ if total_api.nil?
         conditions=[]
         values={}
        
-      conditions << 'snapshots.root_snapshot_id=:root_sid'
-      values[:root_sid] = (@snapshot.root_snapshot_id || @snapshot.id)
+        conditions << 'snapshots.root_snapshot_id=:root_sid'
+        values[:root_sid] = (@snapshot.root_snapshot_id || @snapshot.id)
 
-      conditions << 'snapshots.path LIKE :path'
-      values[:path]="#{@snapshot.path}#{@snapshot.id}.%"
+        conditions << 'snapshots.path LIKE :path'
+        values[:path]="#{@snapshot.path}#{@snapshot.id}.%"
        
            
         conditions << 'rule_id IN (:rule_ids)'
