@@ -33,21 +33,8 @@ if total_api.nil?
     </thead>
     <tbody>
         <%
-        conditions=[]
-        values={}
-       
-        conditions << 'snapshots.root_snapshot_id=:root_sid'
-        values[:root_sid] = (@snapshot.root_snapshot_id || @snapshot.id)
-
-        conditions << 'snapshots.path LIKE :path'
-        values[:path]="#{@snapshot.path}#{@snapshot.id}.%"
-       
-           
-        conditions << 'rule_id IN (:rule_ids)'
-        values[:rule_ids] = Rule.find(:all, :conditions => {'plugin_name'=>'clirr'}).select {|rule| rule.id}
-       
         violations = RuleFailure.find(:all,
-              :conditions => ['(snapshots.id=? OR snapshots.root_snapshot_id=? OR snapshots.path LIKE ?) ',@snapshot.id, @snapshot.id, "#{@snapshot.path}#{@snapshot.id}.%"],
+              :conditions => ['(snapshots.id=? OR snapshots.root_snapshot_id=? OR snapshots.path LIKE ?) AND rules.plugin_name=?',@snapshot.id, @snapshot.id, "#{@snapshot.path}#{@snapshot.id}.%", 'clirr'],
               :include => [:snapshot, :rule],
               :order => 'rule_failures.failure_level DESC')
        
