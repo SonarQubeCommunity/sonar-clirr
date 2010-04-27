@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.codehaus.sonar-plugins</groupId>
   <artifactId>sonar-clirr-plugin</artifactId>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
 
   <name>Sonar Clirr Plugin</name>
   <url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
@@ -94,9 +94,9 @@
   </dependencies>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/tags/sonar-clirr-plugin-0.2</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-clirr-plugin-0.2</developerConnection>
-    <url>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-clirr-plugin-0.2</url>
+    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/clirr</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/clirr</developerConnection>
+    <url>http://svn.sonar-plugins.codehaus.org</url>
   </scm>
 
   <build>
