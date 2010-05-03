@@ -35,8 +35,7 @@ public final class ClirrTxtResultParser {
   private static final int IDX_CLASS = 2;
   private static final int IDX_MESSAGE = 3;
 
-  public List<ClirrViolation> parse(final InputStream input, final Charset charset)
-      throws IOException {
+  public List<ClirrViolation> parse(final InputStream input, final Charset charset) throws IOException {
     return parse(new InputStreamReader(input, charset));
   }
 
