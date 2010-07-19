@@ -4,7 +4,7 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.codehaus.sonar-plugins</groupId>
-    <version>5</version>
+    <version>6</version>
     <relativePath>../parent</relativePath>
   </parent>
   <groupId>org.codehaus.sonar-plugins</groupId>
@@ -15,12 +15,6 @@
   <url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
   <description>Clirr checks for API breaks</description>
   <inceptionYear>2009</inceptionYear>
-
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/13867</url>
-  </issueManagement>
-
   <licenses>
     <license>
       <name>GNU Lesser General Public License (LGPL), v.3</name>
@@ -28,7 +22,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <developers>
     <developer>
       <name>Mike Haller</name>
@@ -49,8 +43,19 @@
     </developer>
   </developers>
 
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/clirr</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/clirr</developerConnection>
+    <url>http://svn.sonar-plugins.codehaus.org</url>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/13867</url>
+  </issueManagement>
+
   <properties>
-    <sonar.version>2.0.1</sonar.version>
+    <sonar.version>2.2</sonar.version>
+    <sonar.pluginClass>org.sonar.plugins.clirr.ClirrPlugin</sonar.pluginClass>
   </properties>
 
   <dependencies>
@@ -58,46 +63,16 @@
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <version>${sonar.version}</version>
+      <scope>provided</scope>
     </dependency>
+    <!-- unit tests -->
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-plugin-api</artifactId>
+      <artifactId>sonar-testing-harness</artifactId>
       <version>${sonar.version}</version>
       <scope>test</scope>
-      <type>test-jar</type>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.7</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.7</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.0.7</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>2.0.7</version>
-      <scope>provided</scope>
-    </dependency>
-
   </dependencies>
-
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/clirr</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/clirr</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
-  </scm>
 
   <build>
     <plugins>
@@ -107,7 +82,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Plugin-Class>org.sonar.plugins.clirr.ClirrPlugin</Plugin-Class>
+              <Plugin-Class>${sonar.pluginClass}</Plugin-Class>
             </manifestEntries>
           </archive>
         </configuration>
