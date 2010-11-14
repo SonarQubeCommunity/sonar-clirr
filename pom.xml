@@ -10,7 +10,7 @@
 
   <artifactId>sonar-clirr-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
 
   <name>Sonar Clirr Plugin</name>
   <description>Checks Java libraries for binary and source compatibility with older releases.</description>
@@ -49,9 +49,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/tags/sonar-clirr-plugin-1.0</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-clirr-plugin-1.0</developerConnection>
-    <url>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-clirr-plugin-1.0</url>
+    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/clirr</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/clirr</developerConnection>
+    <url>http://svn.sonar-plugins.codehaus.org</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
