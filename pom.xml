@@ -13,7 +13,7 @@
   <version>0.3-SNAPSHOT</version>
 
   <name>Sonar Clirr Plugin</name>
-  <description>Clirr checks for API breaks</description>
+  <description>Checks Java libraries for binary and source compatibility with older releases.</description>
   <url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
   <inceptionYear>2009</inceptionYear>
   <organization>
