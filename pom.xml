@@ -14,7 +14,7 @@
 
   <name>Sonar Clirr Plugin</name>
   <description>Checks Java libraries for binary and source compatibility with older releases.</description>
-  <url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
+  <url>http://docs.codehaus.org/display/SONAR/Clirr+Plugin</url>
   <inceptionYear>2009</inceptionYear>
   <organization>
     <name>SonarSource</name>
