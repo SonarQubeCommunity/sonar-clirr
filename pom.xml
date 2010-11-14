@@ -4,7 +4,7 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.codehaus.sonar-plugins</groupId>
-    <version>6</version>
+    <version>7</version>
     <relativePath>../parent</relativePath>
   </parent>
 
@@ -16,6 +16,10 @@
   <description>Clirr checks for API breaks</description>
   <url>http://docs.codehaus.org/display/SONAR/Sonar+Clirr+Plugin</url>
   <inceptionYear>2009</inceptionYear>
+  <organization>
+    <name>SonarSource</name>
+    <url>http://www.sonarsource.com</url>
+  </organization>
   <licenses>
     <license>
       <name>GNU LGPL 3</name>
@@ -56,8 +60,6 @@
 
   <properties>
     <sonar.version>2.2</sonar.version>
-    <!-- TODO sonar-packaging-maven-plugin because of SONAR-1879 -->
-    <sonar.pluginKey>clirr</sonar.pluginKey>
     <sonar.pluginName>Clirr</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.clirr.ClirrPlugin</sonar.pluginClass>
   </properties>
