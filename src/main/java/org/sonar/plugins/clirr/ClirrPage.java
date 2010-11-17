@@ -40,9 +40,8 @@ import org.sonar.api.web.*;
 
 @NavigationSection(NavigationSection.RESOURCE)
 @UserRole(UserRole.USER)
-@ResourceQualifier({Resource.QUALIFIER_PROJECT,Resource.QUALIFIER_MODULE,Resource.QUALIFIER_PACKAGE})
+@ResourceQualifier({ Resource.QUALIFIER_PROJECT, Resource.QUALIFIER_MODULE, Resource.QUALIFIER_PACKAGE })
 public class ClirrPage extends AbstractRubyTemplate implements RubyRailsPage {
-
 
   public String getId() {
     return "clirr";
@@ -56,4 +55,5 @@ public class ClirrPage extends AbstractRubyTemplate implements RubyRailsPage {
   protected String getTemplatePath() {
     return "/org/sonar/plugins/clirr/clirr_page.html.erb";
   }
+
 }
