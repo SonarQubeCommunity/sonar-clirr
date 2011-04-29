@@ -36,14 +36,14 @@
 
 package org.sonar.plugins.clirr;
 
-import org.apache.commons.lang.StringUtils;
-import org.sonar.api.resources.JavaFile;
+import org.sonar.api.utils.SonarException;
+import org.sonar.java.api.JavaClass;
 
 public class ClirrViolation {
 
   private final String messageId;
   private final String message;
-  private final JavaFile resource;
+  private final JavaClass resource;
   private final String severity;
   private Type type;
 
@@ -57,17 +57,13 @@ public class ClirrViolation {
         this.type = aType;
       }
     }
-
   }
 
-  private JavaFile getResource(final String className) {
-    if (StringUtils.isBlank(className) || className.indexOf('$') == -1) {
-      return new JavaFile(className);
-    }
-    return new JavaFile(className.substring(0, className.indexOf('$')));
+  private JavaClass getResource(final String className) {
+    return JavaClass.create(className);
   }
 
-  public JavaFile getJavaFile() {
+  public JavaClass getJavaClass() {
     return resource;
   }
 
@@ -85,6 +81,19 @@ public class ClirrViolation {
 
   public String getMessage() {
     return message;
+  }
+
+  public String getRuleKey() {
+    if (type == Type.BREAK) {
+      return ClirrConstants.RULE_API_BREAK;
+    }
+    if (type == Type.BEHAVIOR_CHANGE) {
+      return ClirrConstants.RULE_API_BEHAVIOR_CHANGE;
+    }
+    if (type == Type.NEW_API) {
+      return ClirrConstants.RULE_NEW_API;
+    }
+    throw new SonarException(String.format("There is no Clirr rule associated to severity '%s'", type));
   }
 
   public enum Type {

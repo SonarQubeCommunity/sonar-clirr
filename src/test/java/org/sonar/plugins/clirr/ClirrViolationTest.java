@@ -36,19 +36,28 @@
 
 package org.sonar.plugins.clirr;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import org.sonar.api.resources.JavaFile;
+import org.sonar.java.api.JavaClass;
+
+import static org.junit.Assert.assertEquals;
 
 public class ClirrViolationTest {
 
   @Test
   public void getAffectedClass() {
     ClirrViolation violation = new ClirrViolation("", "", "", this.getClass().getCanonicalName());
-    assertEquals(new JavaFile("org.sonar.plugins.clirr.ClirrViolationTest"), violation.getJavaFile());
-
-    violation = new ClirrViolation("", "", "", this.getClass().getCanonicalName() + "$InnerClass");
-    assertEquals(new JavaFile("org.sonar.plugins.clirr.ClirrViolationTest"), violation.getJavaFile());
+    assertEquals(JavaClass.create("org.sonar.plugins.clirr.ClirrViolationTest"), violation.getJavaClass());
   }
 
+  @Test
+  public void shouldGetRuleKey() {
+    ClirrViolation error = new ClirrViolation("ERROR", "", "", "");
+    assertEquals("clirr-api-break", error.getRuleKey());
+
+    ClirrViolation warning = new ClirrViolation("WARNING", "", "", "");
+    assertEquals("clirr-api-behavior-change", warning.getRuleKey());
+
+    ClirrViolation info = new ClirrViolation("INFO", "", "", "");
+    assertEquals("clirr-new-api", info.getRuleKey());
+  }
 }

@@ -45,9 +45,9 @@ import org.sonar.api.resources.Java;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
+import org.sonar.java.api.JavaClass;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,13 +59,10 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
 
   private final ClirrConfiguration configuration;
   private final ClirrMavenPluginHandler clirrMavenHandler;
-  private final ClirrRulesRepository rulesRepo;
 
-  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler,
-                     ClirrRulesRepository rulesRepo) {
+  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler) {
     this.configuration = configuration;
     this.clirrMavenHandler = mavenHandler;
-    this.rulesRepo = rulesRepo;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
@@ -101,14 +98,16 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
 
   protected void saveViolations(final List<ClirrViolation> violations, final SensorContext context, final Project project) {
     for (ClirrViolation violation : violations) {
-      Rule rule = rulesRepo.getRuleFromClirrViolation(violation);
-      ActiveRule activeRule = configuration.getActiveRule(rule.getKey());
+      String ruleKey = violation.getRuleKey();
+      ActiveRule activeRule = configuration.getActiveRule(ruleKey);
       if (activeRule != null) {
-        Resource<?> resource = violation.getJavaFile();
-        if (context.getResource(resource) == null) {
-          resource = project;
+        JavaClass javaClass = violation.getJavaClass();
+        JavaClass indexedJavaClass = context.getResource(javaClass);
+        Resource resource = project;
+        if (indexedJavaClass!=null) {
+          resource = context.getParent(indexedJavaClass);// parent is a Java file
         }
-        context.saveViolation(new Violation(activeRule.getRule(), resource).setMessage(violation.getMessage()));
+        context.saveViolation(Violation.create(activeRule, resource).setMessage(violation.getMessage()));
       }
     }
   }

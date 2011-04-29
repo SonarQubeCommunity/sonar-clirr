@@ -40,7 +40,7 @@ import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.RubyRailsWidget;
 import org.sonar.api.web.UserRole;
 
-@UserRole(UserRole.VIEWER)
+@UserRole(UserRole.USER)
 public class ClirrWidget extends AbstractRubyTemplate implements RubyRailsWidget {
 
   public String getId() {

@@ -39,7 +39,7 @@ public class ClirrSensorTest {
   @Before
   public void setUp() {
     configuration = mock(ClirrConfiguration.class);
-    sensor = new ClirrSensor(configuration, null, null);
+    sensor = new ClirrSensor(configuration, null);
   }
 
   @Test

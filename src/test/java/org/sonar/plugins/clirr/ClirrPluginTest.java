@@ -20,34 +20,16 @@
 
 package org.sonar.plugins.clirr;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 public class ClirrPluginTest {
-  private ClirrPlugin plugin;
-
-  @Before
-  public void setUp() {
-    plugin = new ClirrPlugin();
-  }
 
   @Test
   public void defineExtensions() {
-    assertThat(plugin.getExtensions().size(), is(8));
-  }
-
-  /**
-   * see SONAR-1898
-   */
-  @Test
-  public void testDeprecatedMethods() {
-    assertThat(plugin.getKey(), notNullValue());
-    assertThat(plugin.getName(), notNullValue());
-    assertThat(plugin.getDescription(), notNullValue());
+    assertThat(new ClirrPlugin().getExtensions().size(), is(7));
   }
 
 }

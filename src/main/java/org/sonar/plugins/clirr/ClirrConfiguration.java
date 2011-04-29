@@ -51,32 +51,32 @@ public class ClirrConfiguration implements BatchExtension {
     this.configuration = configuration;
   }
 
-  public boolean isActive() {
+  boolean isActive() {
     return configuration.getBoolean(ClirrConstants.API_PROPERTY, false)
         && (isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive());
   }
 
-  public String getComparisonVersion() {
+  String getComparisonVersion() {
     return configuration.getString(ClirrConstants.COMPARISON_VERSION_PROPERTY);
   }
 
-  public boolean hasComparisonVersion() {
+  boolean hasComparisonVersion() {
     return StringUtils.isNotBlank(getComparisonVersion());
   }
 
-  public boolean isApiBreakActive() {
+  boolean isApiBreakActive() {
     return getActiveRule(ClirrConstants.RULE_API_BREAK) != null;
   }
 
-  public boolean isApiBehaviorChangeActive() {
+  boolean isApiBehaviorChangeActive() {
     return getActiveRule(ClirrConstants.RULE_API_BEHAVIOR_CHANGE) != null;
   }
 
-  public boolean isNewApiActive() {
+  boolean isNewApiActive() {
     return getActiveRule(ClirrConstants.RULE_NEW_API) != null;
   }
 
-  public ActiveRule getActiveRule(String key) {
+  ActiveRule getActiveRule(String key) {
     return profile.getActiveRule(ClirrConstants.PLUGIN_KEY, key);
   }
 }

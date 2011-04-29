@@ -35,12 +35,11 @@
  */
 package org.sonar.plugins.clirr;
 
-import org.sonar.api.Extension;
-import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.SonarPlugin;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Properties({
@@ -63,39 +62,10 @@ import java.util.List;
         global = false
     )
 })
-public final class ClirrPlugin implements Plugin {
+public final class ClirrPlugin extends SonarPlugin {
 
-  // This is where you're going to declare all your Sonar extensions
-  public List<Class<? extends Extension>> getExtensions() {
-    List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
-    list.add(ClirrSensor.class);
-    list.add(ClirrRulesRepository.class);
-    list.add(ClirrMavenPluginHandler.class);
-    list.add(ClirrDecorator.class);
-    list.add(ClirrMetrics.class);
-    list.add(ClirrWidget.class);
-    list.add(ClirrPage.class);
-    list.add(ClirrConfiguration.class);
-    return list;
-  }
-
-  // The key which uniquely identifies your plugin among all others Sonar
-  // plugins
-  public String getKey() {
-    return ClirrConstants.PLUGIN_KEY;
-  }
-
-  public String getName() {
-    return ClirrConstants.PLUGIN_NAME;
-  }
-
-  public String getDescription() {
-    return "Clirr checks Java libraries for binary and source compatibility with older releases. Basically Clirr dumps out a list of" +
-        " changes in the public api. It prevents accidental introduction of binary or source compatibility problems between two versions.";
-  }
-
-  @Override
-  public String toString() {
-    return getKey();
+  public List getExtensions() {
+    return Arrays.asList(ClirrSensor.class, ClirrRulesRepository.class, ClirrMavenPluginHandler.class,
+        ClirrDecorator.class, ClirrMetrics.class, ClirrWidget.class, ClirrConfiguration.class);
   }
 }

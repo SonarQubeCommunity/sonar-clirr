@@ -69,7 +69,7 @@ public class ClirrDecorator implements Decorator {
    * {@inheritDoc}
    */
   public boolean shouldExecuteOnProject(Project project) {
-    return project.getLanguage().equals(Java.INSTANCE) && configuration.isActive();
+    return project.getLanguageKey().equals(Java.KEY) && configuration.isActive();
   }
 
   public void decorate(Resource resource, DecoratorContext context) {
