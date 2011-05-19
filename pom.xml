@@ -59,7 +59,7 @@
   </issueManagement>
 
   <properties>
-    <sonar.version>2.8-RC2</sonar.version>
+    <sonar.version>2.8</sonar.version>
     <sonar.pluginName>Clirr</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.clirr.ClirrPlugin</sonar.pluginClass>
   </properties>
