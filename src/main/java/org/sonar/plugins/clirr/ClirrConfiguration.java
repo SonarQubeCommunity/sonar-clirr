@@ -35,29 +35,29 @@
  */
 package org.sonar.plugins.clirr;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.BatchExtension;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.ActiveRule;
 
 public class ClirrConfiguration implements BatchExtension {
 
   private RulesProfile profile;
-  private Configuration configuration;
+  private Settings settings;
 
-  public ClirrConfiguration(RulesProfile profile, Configuration configuration) {
+  public ClirrConfiguration(RulesProfile profile, Settings settings) {
     this.profile = profile;
-    this.configuration = configuration;
+    this.settings = settings;
   }
 
   boolean isActive() {
-    return configuration.getBoolean(ClirrConstants.API_PROPERTY, false)
-        && (isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive());
+    return settings.getBoolean(ClirrConstants.API_PROPERTY)
+      && (isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive());
   }
 
   String getComparisonVersion() {
-    return configuration.getString(ClirrConstants.COMPARISON_VERSION_PROPERTY);
+    return settings.getString(ClirrConstants.COMPARISON_VERSION_PROPERTY);
   }
 
   boolean hasComparisonVersion() {
