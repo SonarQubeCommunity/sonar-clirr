@@ -22,14 +22,13 @@ package org.sonar.plugins.clirr;
 
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class ClirrPluginTest {
 
   @Test
   public void defineExtensions() {
-    assertThat(new ClirrPlugin().getExtensions().size(), is(7));
+    assertThat(new ClirrPlugin().getExtensions()).hasSize(7);
   }
 
 }
