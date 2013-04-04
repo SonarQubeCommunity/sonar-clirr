@@ -61,10 +61,16 @@ public class ClirrConfigurationTest {
     assertThat(conf.isActive()).isFalse();
 
     // clirr is still disabled
-    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_API_BREAK)).thenReturn(new ActiveRule());
+    settings.setProperty(ClirrConstants.API_PROPERTY, true);
     assertThat(conf.isActive()).isFalse();
 
-    settings.setProperty(ClirrConstants.API_PROPERTY, true);
+    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_NEW_API)).thenReturn(new ActiveRule());
+    assertThat(conf.isActive()).isTrue();
+
+    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_API_BEHAVIOR_CHANGE)).thenReturn(new ActiveRule());
+    assertThat(conf.isActive()).isTrue();
+
+    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_API_BREAK)).thenReturn(new ActiveRule());
     assertThat(conf.isActive()).isTrue();
   }
 
