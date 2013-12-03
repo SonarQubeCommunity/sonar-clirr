@@ -37,35 +37,37 @@ package org.sonar.plugins.clirr;
 
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Properties({
-    @Property(
-        key = ClirrConstants.COMPARISON_VERSION_PROPERTY,
-        name = "Reference version",
-        description = "By default, Clirr compares the current code against the latest released version. Use this parameter to compare" +
-            " your code against a particular version.",
-        project = true,
-        module = true,
-        global = false
-    ),
-    @Property(
-        key = ClirrConstants.API_PROPERTY,
-        defaultValue = "false",
-        name = "API",
-        description = "Only API projects are checked. Set to true if this project is considered as an API. Default is false.",
-        project = true,
-        module = true,
-        global = false
-    )
+  @Property(
+    key = ClirrConstants.COMPARISON_VERSION_PROPERTY,
+    name = "Reference version",
+    description = "By default, Clirr compares the current code against the latest released version. Use this parameter to compare" +
+      " your code against a particular version.",
+    project = true,
+    module = true,
+    global = false
+  ),
+  @Property(
+    key = ClirrConstants.API_PROPERTY,
+    type = PropertyType.BOOLEAN,
+    defaultValue = "false",
+    name = "API",
+    description = "Only API projects are checked. Set to true if this project is considered as an API.",
+    project = true,
+    module = true,
+    global = false
+  )
 })
 public final class ClirrPlugin extends SonarPlugin {
 
   public List getExtensions() {
     return Arrays.asList(ClirrSensor.class, ClirrRulesRepository.class, ClirrMavenPluginHandler.class,
-        ClirrDecorator.class, ClirrMetrics.class, ClirrWidget.class, ClirrConfiguration.class);
+      ClirrDecorator.class, ClirrMetrics.class, ClirrWidget.class, ClirrConfiguration.class);
   }
 }
