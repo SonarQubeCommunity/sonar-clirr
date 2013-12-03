@@ -2,18 +2,17 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>parent</artifactId>
     <groupId>org.codehaus.sonar-plugins</groupId>
-    <version>15</version>
-    <relativePath>../parent</relativePath>
+    <artifactId>parent</artifactId>
+    <version>17</version>
   </parent>
 
   <artifactId>sonar-clirr-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   <version>1.2-SNAPSHOT</version>
 
-  <name>Sonar Clirr Plugin</name>
-  <description>Checks Java libraries for binary and source compatibility with older releases.</description>
+  <name>SonarQube Clirr Plugin</name>
+  <description>Checks Java libraries for binary and source compatibility with older releases</description>
   <url>http://docs.codehaus.org/display/SONAR/Clirr+Plugin</url>
   <inceptionYear>2009</inceptionYear>
   <organization>
@@ -27,7 +26,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
   <developers>
     <developer>
       <name>Mike Haller</name>
@@ -49,10 +47,12 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/clirr</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/clirr</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
+    <connection>scm:git:git@github.com:SonarCommunity/sonar-clirr.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-clirr.git</developerConnection>
+    <url>https://github.com/SonarCommunity/sonar-clirr</url>
+    <tag>HEAD</tag>
   </scm>
+
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/13867</url>
@@ -96,7 +96,7 @@
       <!-- temporary dependency as long as org.sonar.api.resources.Project imports MavenProject -->
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-project</artifactId>
-      <version>2.0.7</version>
+      <version>2.2.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
