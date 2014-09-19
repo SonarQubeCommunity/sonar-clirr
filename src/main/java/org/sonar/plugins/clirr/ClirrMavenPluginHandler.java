@@ -23,13 +23,21 @@ import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.batch.maven.MavenPluginHandler;
 import org.sonar.api.batch.maven.MavenUtils;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.FileExclusions;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+
+import java.io.File;
 
 public final class ClirrMavenPluginHandler implements MavenPluginHandler {
 
-  private ClirrConfiguration configuration;
+  private final ClirrConfiguration configuration;
+  private final FileExclusions fileExclusions;
+  private final ModuleFileSystem fileSystem;
 
-  public ClirrMavenPluginHandler(ClirrConfiguration configuration) {
+  public ClirrMavenPluginHandler(ClirrConfiguration configuration, FileExclusions fileExclusions, ModuleFileSystem fileSystem) {
     this.configuration = configuration;
+    this.fileExclusions = fileExclusions;
+    this.fileSystem = fileSystem;
   }
 
   public String getArtifactId() {
@@ -37,7 +45,7 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
   }
 
   public String[] getGoals() {
-    return new String[]{"clirr"};
+    return new String[] {"clirr"};
   }
 
   public String getGroupId() {
@@ -57,9 +65,9 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
       plugin.setParameter("comparisonVersion", configuration.getComparisonVersion());
     }
 
-    plugin.setParameter("textOutputFile", project.getFileSystem().getSonarWorkingDirectory() + "/" + ClirrConstants.RESULT_TXT);
+    plugin.setParameter("textOutputFile", new File(fileSystem.workingDir(), ClirrConstants.RESULT_TXT).toString());
 
-    String[] wildcardPatterns = project.getExclusionPatterns();
+    String[] wildcardPatterns = fileExclusions.sourceExclusions();
     for (String excludePattern : wildcardPatterns) {
       plugin.addParameter("excludes/exclude", excludePattern);
     }

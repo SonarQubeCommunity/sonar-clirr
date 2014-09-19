@@ -30,6 +30,8 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.rules.Violation;
+import org.sonar.api.scan.filesystem.FileQuery;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.java.api.JavaClass;
 
@@ -43,14 +45,16 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
 
   private final ClirrConfiguration configuration;
   private final ClirrMavenPluginHandler clirrMavenHandler;
+  private final ModuleFileSystem fs;
 
-  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler) {
+  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler, ModuleFileSystem fileSystem) {
     this.configuration = configuration;
     this.clirrMavenHandler = mavenHandler;
+    this.fs = fileSystem;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return Java.INSTANCE.equals(project.getLanguage()) && configuration.isActive();
+    return !fs.files(FileQuery.onSource().onLanguage(Java.KEY)).isEmpty() && configuration.isActive();
   }
 
   public MavenPluginHandler getMavenPluginHandler(Project project) {
@@ -88,7 +92,7 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
         JavaClass javaClass = violation.getJavaClass();
         JavaClass indexedJavaClass = context.getResource(javaClass);
         Resource resource = project;
-        if (indexedJavaClass!=null) {
+        if (indexedJavaClass != null) {
           resource = context.getParent(indexedJavaClass);// parent is a Java file
         }
         context.saveViolation(Violation.create(activeRule, resource).setMessage(violation.getMessage()));

@@ -21,12 +21,17 @@ package org.sonar.plugins.clirr;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.resources.Java;
-import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.FileQuery;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,18 +39,20 @@ public class ClirrSensorTest {
 
   private ClirrConfiguration configuration;
   private ClirrSensor sensor;
+  private ModuleFileSystem fileSystem;
 
   @Before
   public void setUp() {
     configuration = mock(ClirrConfiguration.class);
-    sensor = new ClirrSensor(configuration, null);
+    fileSystem = mock(ModuleFileSystem.class);
+    sensor = new ClirrSensor(configuration, null, fileSystem);
   }
 
   @Test
   public void shouldExecuteOnProject() {
     Project project = mock(Project.class);
-    Language anotherLanguage = mock(Language.class);
-    when(project.getLanguage()).thenReturn(Java.INSTANCE, Java.INSTANCE, anotherLanguage);
+    when(fileSystem.files(any(FileQuery.class)))
+      .thenReturn(Arrays.asList(new File("")), Arrays.asList(new File("")), Collections.<File>emptyList());
     when(configuration.isActive()).thenReturn(true, false, true);
 
     assertThat(sensor.shouldExecuteOnProject(project), is(true));

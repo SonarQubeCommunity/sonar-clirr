@@ -22,6 +22,8 @@ package org.sonar.plugins.clirr;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.maven.MavenUtils;
+import org.sonar.api.scan.filesystem.FileExclusions;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -37,14 +39,14 @@ public class ClirrMavenPluginHandlerTest {
   @Before
   public void setUp() {
     configuration = mock(ClirrConfiguration.class);
-    handler = new ClirrMavenPluginHandler(configuration);
+    handler = new ClirrMavenPluginHandler(configuration, mock(FileExclusions.class), mock(ModuleFileSystem.class));
   }
 
   @Test
   public void defineMavenPlugin() {
     assertThat(handler.getGroupId(), is(MavenUtils.GROUP_ID_CODEHAUS_MOJO));
     assertThat(handler.getArtifactId(), is("clirr-maven-plugin"));
-    assertThat(handler.getGoals(), equalTo(new String[] { "clirr" }));
+    assertThat(handler.getGoals(), equalTo(new String[] {"clirr"}));
     assertThat(handler.getVersion(), notNullValue());
     assertThat(handler.isFixedVersion(), is(false));
   }
