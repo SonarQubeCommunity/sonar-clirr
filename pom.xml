@@ -57,6 +57,11 @@
     <system>JIRA</system>
     <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/13867</url>
   </issueManagement>
+  <ciManagement>
+    <system>jenkins</system>
+    <url>https://sonarplugins.ci.cloudbees.com/job/clirr/</url>
+  </ciManagement>
+
 
   <properties>
     <sonar.version>3.7</sonar.version>
