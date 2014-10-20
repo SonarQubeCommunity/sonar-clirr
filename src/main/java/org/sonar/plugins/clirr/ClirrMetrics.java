@@ -68,6 +68,7 @@ public class ClirrMetrics implements Metrics {
       .setBestValue(0.0)
       .create();
 
+  @Override
   public List<Metric> getMetrics() {
     return Arrays.asList(TOTAL_API_CHANGES, API_BREAKS, API_BEHAVIOR_CHANGES, NEW_API);
   }

@@ -40,26 +40,32 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
     this.fileSystem = fileSystem;
   }
 
+  @Override
   public String getArtifactId() {
     return "clirr-maven-plugin";
   }
 
+  @Override
   public String[] getGoals() {
     return new String[] {"clirr"};
   }
 
+  @Override
   public String getGroupId() {
     return MavenUtils.GROUP_ID_CODEHAUS_MOJO;
   }
 
+  @Override
   public boolean isFixedVersion() {
     return false;
   }
 
+  @Override
   public String getVersion() {
     return "2.2.2";
   }
 
+  @Override
   public void configure(Project project, MavenPlugin plugin) {
     if (configuration.hasComparisonVersion()) {
       plugin.setParameter("comparisonVersion", configuration.getComparisonVersion());

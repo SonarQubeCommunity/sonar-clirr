@@ -53,14 +53,17 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
     this.fs = fileSystem;
   }
 
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     return !fs.files(FileQuery.onSource().onLanguage(Java.KEY)).isEmpty() && configuration.isActive();
   }
 
+  @Override
   public MavenPluginHandler getMavenPluginHandler(Project project) {
     return clirrMavenHandler;
   }
 
+  @Override
   public void analyse(Project project, SensorContext context) {
     InputStream input = null;
     try {

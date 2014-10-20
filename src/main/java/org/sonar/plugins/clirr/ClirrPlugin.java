@@ -50,6 +50,7 @@ import java.util.List;
 })
 public final class ClirrPlugin extends SonarPlugin {
 
+  @Override
   public List getExtensions() {
     return Arrays.asList(ClirrSensor.class, ClirrRulesRepository.class, ClirrMavenPluginHandler.class,
       ClirrDecorator.class, ClirrMetrics.class, ClirrWidget.class, ClirrConfiguration.class);

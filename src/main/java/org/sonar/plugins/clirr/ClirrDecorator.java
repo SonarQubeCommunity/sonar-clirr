@@ -52,10 +52,12 @@ public class ClirrDecorator implements Decorator {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     return project.getLanguageKey().equals(Java.KEY) && configuration.isActive();
   }
 
+  @Override
   public void decorate(Resource resource, DecoratorContext context) {
     int apiBreaks = 0;
     boolean active = false;
