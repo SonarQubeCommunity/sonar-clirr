@@ -20,17 +20,17 @@
 package org.sonar.plugins.clirr;
 
 import org.junit.Test;
-import org.sonar.api.rules.Rule;
+import org.sonar.api.server.rule.RulesDefinition;
 
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class ClirrRulesRepositoryTest {
 
-	@Test
-	public void shouldCreateRules() {
-		List<Rule> rules = new ClirrRulesRepository().createRules();
-		assertEquals(3, rules.size());
-	}
+  @Test
+  public void shouldCreateRules() {
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    new ClirrRulesRepository().define(context);
+
+    assertThat(context.repository("clirr").rules()).hasSize(3);
+  }
 }

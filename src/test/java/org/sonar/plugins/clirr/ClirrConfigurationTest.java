@@ -20,9 +20,8 @@
 package org.sonar.plugins.clirr;
 
 import org.junit.Test;
+import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.rules.ActiveRule;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -31,36 +30,38 @@ import static org.mockito.Mockito.when;
 public class ClirrConfigurationTest {
 
   Settings settings = new Settings();
-  RulesProfile profile = mock(RulesProfile.class);
+  ActiveRules activeRules = mock(ActiveRules.class);
 
   @Test
   public void should_be_disabled_by_default() throws Exception {
-    ClirrConfiguration conf = new ClirrConfiguration(profile, settings);
+    ClirrConfiguration conf = new ClirrConfiguration(activeRules, settings);
     assertThat(conf.isActive()).isFalse();
   }
 
   @Test
   public void should_be_enabled_if_at_least_one_rule_is_enabled() throws Exception {
-    ClirrConfiguration conf = new ClirrConfiguration(profile, settings);
+    ClirrConfiguration conf = new ClirrConfiguration(activeRules, settings);
     assertThat(conf.isActive()).isFalse();
 
     // clirr is still disabled
     settings.setProperty(ClirrConstants.API_PROPERTY, true);
     assertThat(conf.isActive()).isFalse();
 
-    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_NEW_API)).thenReturn(new ActiveRule());
+    org.sonar.api.batch.rule.ActiveRule activeRule = mock(org.sonar.api.batch.rule.ActiveRule.class);
+
+    when(activeRules.find(ClirrConstants.RULE_NEW_API)).thenReturn(activeRule);
     assertThat(conf.isActive()).isTrue();
 
-    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_API_BEHAVIOR_CHANGE)).thenReturn(new ActiveRule());
+    when(activeRules.find(ClirrConstants.RULE_API_BEHAVIOR_CHANGE)).thenReturn(activeRule);
     assertThat(conf.isActive()).isTrue();
 
-    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_API_BREAK)).thenReturn(new ActiveRule());
+    when(activeRules.find(ClirrConstants.RULE_API_BREAK)).thenReturn(activeRule);
     assertThat(conf.isActive()).isTrue();
   }
 
   @Test
   public void should_get_comparison_version() throws Exception {
-    ClirrConfiguration conf = new ClirrConfiguration(profile, settings);
+    ClirrConfiguration conf = new ClirrConfiguration(activeRules, settings);
     assertThat(conf.getComparisonVersion()).isNull();
     assertThat(conf.hasComparisonVersion()).isFalse();
 
@@ -71,19 +72,20 @@ public class ClirrConfigurationTest {
 
   @Test
   public void test_rule_activation() throws Exception {
-    ClirrConfiguration conf = new ClirrConfiguration(profile, settings);
+    ClirrConfiguration conf = new ClirrConfiguration(activeRules, settings);
     assertThat(conf.isApiBehaviorChangeActive()).isFalse();
     assertThat(conf.isApiBreakActive()).isFalse();
     assertThat(conf.isNewApiActive()).isFalse();
 
+    org.sonar.api.batch.rule.ActiveRule activeRule = mock(org.sonar.api.batch.rule.ActiveRule.class);
 
-    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_API_BREAK)).thenReturn(new ActiveRule());
+    when(activeRules.find(ClirrConstants.RULE_API_BREAK)).thenReturn(activeRule);
     assertThat(conf.isApiBreakActive()).isTrue();
 
-    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_API_BEHAVIOR_CHANGE)).thenReturn(new ActiveRule());
+    when(activeRules.find(ClirrConstants.RULE_API_BEHAVIOR_CHANGE)).thenReturn(activeRule);
     assertThat(conf.isApiBehaviorChangeActive()).isTrue();
 
-    when(profile.getActiveRule(ClirrConstants.PLUGIN_KEY, ClirrConstants.RULE_NEW_API)).thenReturn(new ActiveRule());
+    when(activeRules.find(ClirrConstants.RULE_NEW_API)).thenReturn(activeRule);
     assertThat(conf.isNewApiActive()).isTrue();
   }
 }

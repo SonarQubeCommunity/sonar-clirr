@@ -34,12 +34,12 @@ public class ClirrViolationTest {
   @Test
   public void shouldGetRuleKey() {
     ClirrViolation error = new ClirrViolation("ERROR", "", "", "");
-    assertEquals("clirr-api-break", error.getRuleKey());
+    assertEquals("clirr-api-break", error.getRuleKey().rule());
 
     ClirrViolation warning = new ClirrViolation("WARNING", "", "", "");
-    assertEquals("clirr-api-behavior-change", warning.getRuleKey());
+    assertEquals("clirr-api-behavior-change", warning.getRuleKey().rule());
 
     ClirrViolation info = new ClirrViolation("INFO", "", "", "");
-    assertEquals("clirr-new-api", info.getRuleKey());
+    assertEquals("clirr-new-api", info.getRuleKey().rule());
   }
 }

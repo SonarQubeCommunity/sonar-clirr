@@ -22,12 +22,14 @@ package org.sonar.plugins.clirr;
 import org.sonar.api.batch.Decorator;
 import org.sonar.api.batch.DecoratorContext;
 import org.sonar.api.batch.DependedUpon;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.MeasureUtils;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.Java;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.rules.Violation;
+import org.sonar.api.rule.RuleKey;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,18 +37,20 @@ import java.util.List;
 public class ClirrDecorator implements Decorator {
 
   private final ClirrConfiguration configuration;
+  private final ResourcePerspectives perspectives;
 
-  public ClirrDecorator(ClirrConfiguration configuration) {
+  public ClirrDecorator(ClirrConfiguration configuration, ResourcePerspectives perspectives) {
     this.configuration = configuration;
+    this.perspectives = perspectives;
   }
 
   @DependedUpon
   public List<Metric> generatesMetrics() {
-    return Arrays.asList(
-        ClirrMetrics.TOTAL_API_CHANGES,
-        ClirrMetrics.API_BREAKS,
-        ClirrMetrics.API_BEHAVIOR_CHANGES,
-        ClirrMetrics.NEW_API);
+    return Arrays.<Metric>asList(
+      ClirrMetrics.TOTAL_API_CHANGES,
+      ClirrMetrics.API_BREAKS,
+      ClirrMetrics.API_BEHAVIOR_CHANGES,
+      ClirrMetrics.NEW_API);
   }
 
   /**
@@ -54,7 +58,7 @@ public class ClirrDecorator implements Decorator {
    */
   @Override
   public boolean shouldExecuteOnProject(Project project) {
-    return project.getLanguageKey().equals(Java.KEY) && configuration.isActive();
+    return true;
   }
 
   @Override
@@ -83,14 +87,18 @@ public class ClirrDecorator implements Decorator {
     }
   }
 
-  private int saveValue(DecoratorContext context, Metric metric, String ruleKey) {
+  private int saveValue(DecoratorContext context, Metric metric, RuleKey ruleKey) {
     int result;
     result = MeasureUtils.sum(true, context.getChildrenMeasures(metric)).intValue();
-    for (Violation violation : context.getViolations()) {
-      if (violation.getRule().getKey().equals(ruleKey)) {
-        result++;
+    Issuable issuable = perspectives.as(Issuable.class, context.getResource());
+    if (issuable != null) {
+      for (Issue issue : issuable.issues()) {
+        if (issue.ruleKey().equals(ruleKey)) {
+          result++;
+        }
       }
     }
+
     context.saveMeasure(metric, (double) result);
     return result;
   }

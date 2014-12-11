@@ -21,13 +21,12 @@ package org.sonar.plugins.clirr;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.resources.Java;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.resources.Project;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ClirrDecoratorTest {
 
@@ -37,7 +36,7 @@ public class ClirrDecoratorTest {
   @Before
   public void setUp() {
     configuration = mock(ClirrConfiguration.class);
-    decorator = new ClirrDecorator(configuration);
+    decorator = new ClirrDecorator(configuration, mock(ResourcePerspectives.class));
   }
 
   @Test
@@ -48,12 +47,8 @@ public class ClirrDecoratorTest {
   @Test
   public void shouldExecuteOnProject() {
     Project project = mock(Project.class);
-    when(project.getLanguageKey()).thenReturn(Java.KEY, Java.KEY, "other");
-    when(configuration.isActive()).thenReturn(true, false, true);
 
     assertThat(decorator.shouldExecuteOnProject(project), is(true));
-    assertThat(decorator.shouldExecuteOnProject(project), is(false));
-    assertThat(decorator.shouldExecuteOnProject(project), is(false));
   }
 
 }

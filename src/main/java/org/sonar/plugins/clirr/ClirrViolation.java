@@ -19,7 +19,8 @@
  */
 package org.sonar.plugins.clirr;
 
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.rule.RuleKey;
+import org.sonar.api.utils.MessageException;
 
 public class ClirrViolation {
 
@@ -61,7 +62,7 @@ public class ClirrViolation {
     return message;
   }
 
-  public String getRuleKey() {
+  public RuleKey getRuleKey() {
     if (type == Type.BREAK) {
       return ClirrConstants.RULE_API_BREAK;
     }
@@ -71,7 +72,7 @@ public class ClirrViolation {
     if (type == Type.NEW_API) {
       return ClirrConstants.RULE_NEW_API;
     }
-    throw new SonarException(String.format("There is no Clirr rule associated to severity '%s'", type));
+    throw MessageException.of(String.format("There is no Clirr rule associated to severity '%s'", type));
   }
 
   public enum Type {

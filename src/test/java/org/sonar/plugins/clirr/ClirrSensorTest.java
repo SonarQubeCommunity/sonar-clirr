@@ -21,18 +21,16 @@ package org.sonar.plugins.clirr;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile.Type;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.FileQuery;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.java.api.JavaResourceLocator;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-
+import static org.fest.assertions.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,25 +38,28 @@ public class ClirrSensorTest {
 
   private ClirrConfiguration configuration;
   private ClirrSensor sensor;
-  private ModuleFileSystem fileSystem;
+  private DefaultFileSystem fileSystem;
 
   @Before
   public void setUp() {
     configuration = mock(ClirrConfiguration.class);
-    fileSystem = mock(ModuleFileSystem.class);
-    sensor = new ClirrSensor(configuration, null, fileSystem, mock(JavaResourceLocator.class));
+    fileSystem = new DefaultFileSystem();
+    sensor = new ClirrSensor(configuration, null, fileSystem, mock(JavaResourceLocator.class), mock(ResourcePerspectives.class));
   }
 
   @Test
   public void shouldExecuteOnProject() {
     Project project = mock(Project.class);
-    when(fileSystem.files(any(FileQuery.class)))
-      .thenReturn(Arrays.asList(new File("")), Arrays.asList(new File("")), Collections.<File>emptyList());
-    when(configuration.isActive()).thenReturn(true, false, true);
 
-    assertThat(sensor.shouldExecuteOnProject(project), is(true));
-    assertThat(sensor.shouldExecuteOnProject(project), is(false));
-    assertThat(sensor.shouldExecuteOnProject(project), is(false));
+    when(configuration.isActive()).thenReturn(true);
+    assertThat(sensor.shouldExecuteOnProject(project)).isFalse();
+
+    when(configuration.isActive()).thenReturn(false);
+    fileSystem.add(new DefaultInputFile("src/Foo.java").setLanguage("java").setType(Type.MAIN));
+    assertThat(sensor.shouldExecuteOnProject(project)).isFalse();
+
+    when(configuration.isActive()).thenReturn(true);
+    assertThat(sensor.shouldExecuteOnProject(project)).isTrue();
   }
 
   @Test

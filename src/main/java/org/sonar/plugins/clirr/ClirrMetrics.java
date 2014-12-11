@@ -29,48 +29,48 @@ public class ClirrMetrics implements Metrics {
 
   public static final String API_COMPATIBILITY_DOMAIN = "API compatibility";
 
-  public static final Metric TOTAL_API_CHANGES = new Metric.Builder(
-      "clirr_total_api_changes", "Total API Changes", Metric.ValueType.INT)
-      .setDescription("Number of API changes")
-      .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(false)
-      .setDomain(API_COMPATIBILITY_DOMAIN)
-      .setOptimizedBestValue(true)
-      .setBestValue(0.0)
-      .create();
+  public static final Metric<Integer> TOTAL_API_CHANGES = new Metric.Builder(
+    "clirr_total_api_changes", "Total API Changes", Metric.ValueType.INT)
+    .setDescription("Number of API changes")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(false)
+    .setDomain(API_COMPATIBILITY_DOMAIN)
+    .setOptimizedBestValue(true)
+    .setBestValue(0.0)
+    .create();
 
-  public static final Metric API_BREAKS = new Metric.Builder("clirr_api_breaks", "API breaks", Metric.ValueType.INT)
-      .setDescription("Number of API changes which break the backward compatibility")
-      .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(true)
-      .setDomain(API_COMPATIBILITY_DOMAIN)
-      .setOptimizedBestValue(true)
-      .setBestValue(0.0)
-      .create();
+  public static final Metric<Integer> API_BREAKS = new Metric.Builder("clirr_api_breaks", "API breaks", Metric.ValueType.INT)
+    .setDescription("Number of API changes which break the backward compatibility")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(true)
+    .setDomain(API_COMPATIBILITY_DOMAIN)
+    .setOptimizedBestValue(true)
+    .setBestValue(0.0)
+    .create();
 
-  public static final Metric API_BEHAVIOR_CHANGES = new Metric.Builder(
-      "clirr_api_behavior_changes", "API behavior changes", Metric.ValueType.INT)
-      .setDescription("Number of API changes which change the previous API behavior")
-      .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(true)
-      .setDomain(API_COMPATIBILITY_DOMAIN)
-      .setOptimizedBestValue(true)
-      .setBestValue(0.0)
-      .create();
+  public static final Metric<Integer> API_BEHAVIOR_CHANGES = new Metric.Builder(
+    "clirr_api_behavior_changes", "API behavior changes", Metric.ValueType.INT)
+    .setDescription("Number of API changes which change the previous API behavior")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(true)
+    .setDomain(API_COMPATIBILITY_DOMAIN)
+    .setOptimizedBestValue(true)
+    .setBestValue(0.0)
+    .create();
 
-  public static final Metric NEW_API = new Metric.Builder(
-      "clirr_new_api", "New API", Metric.ValueType.INT)
-      .setDescription("Number of new API")
-      .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(false)
-      .setDomain(API_COMPATIBILITY_DOMAIN)
-      .setOptimizedBestValue(true)
-      .setBestValue(0.0)
-      .create();
+  public static final Metric<Integer> NEW_API = new Metric.Builder(
+    "clirr_new_api", "New API", Metric.ValueType.INT)
+    .setDescription("Number of new API")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(false)
+    .setDomain(API_COMPATIBILITY_DOMAIN)
+    .setOptimizedBestValue(true)
+    .setBestValue(0.0)
+    .create();
 
   @Override
   public List<Metric> getMetrics() {
-    return Arrays.asList(TOTAL_API_CHANGES, API_BREAKS, API_BEHAVIOR_CHANGES, NEW_API);
+    return Arrays.<Metric>asList(TOTAL_API_CHANGES, API_BREAKS, API_BEHAVIOR_CHANGES, NEW_API);
   }
 
 }

@@ -19,14 +19,16 @@
  */
 package org.sonar.plugins.clirr;
 
+import org.sonar.api.rule.RuleKey;
+
 public interface ClirrConstants {
 
   String PLUGIN_KEY = "clirr";
   String PLUGIN_NAME = "Clirr";
 
-  String RULE_API_BREAK = "clirr-api-break";
-  String RULE_NEW_API = "clirr-new-api";
-  String RULE_API_BEHAVIOR_CHANGE = "clirr-api-behavior-change";
+  RuleKey RULE_API_BREAK = RuleKey.of(PLUGIN_KEY, "clirr-api-break");
+  RuleKey RULE_NEW_API = RuleKey.of(PLUGIN_KEY, "clirr-new-api");
+  RuleKey RULE_API_BEHAVIOR_CHANGE = RuleKey.of(PLUGIN_KEY, "clirr-api-behavior-change");
 
   String RESULT_TXT = "clirr-result.txt";
   String COMPARISON_VERSION_PROPERTY = "sonar.clirr.comparisonVersion";

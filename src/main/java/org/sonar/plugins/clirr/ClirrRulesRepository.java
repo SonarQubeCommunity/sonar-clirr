@@ -19,47 +19,37 @@
  */
 package org.sonar.plugins.clirr;
 
-import org.sonar.api.resources.Java;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RulePriority;
-import org.sonar.api.rules.RuleRepository;
+import org.sonar.api.rule.Severity;
+import org.sonar.api.server.rule.RulesDefinition;
 
-import java.util.Arrays;
-import java.util.List;
-
-
-public final class ClirrRulesRepository extends RuleRepository {
-
-  public ClirrRulesRepository() {
-    super(ClirrConstants.PLUGIN_KEY, Java.KEY);
-    setName(ClirrConstants.PLUGIN_NAME);
-  }
+public final class ClirrRulesRepository implements RulesDefinition {
 
   @Override
-  public List<Rule> createRules() {
-    Rule apiBreakRule = Rule.create()
-        .setKey(ClirrConstants.RULE_API_BREAK)
-        .setName("API Change breaks the backward binary compatibility")
-        .setSeverity(RulePriority.CRITICAL)
-        .setDescription("Clirr reports this violation for cases where it is possible to get a run-time failure." +
-            " Whether one actually occurs can depend upon the way the library is called, ie changes reported as an error may" +
-            " in fact work when used as long as the patterns of use of the library do not trigger the failure situation.");
+  public void define(Context context) {
+    NewRepository newRepository = context.createRepository(ClirrConstants.PLUGIN_KEY, "java")
+      .setName(ClirrConstants.PLUGIN_NAME);
 
-    Rule apiBehaviorChangeRule = Rule.create()
-        .setKey(ClirrConstants.RULE_API_BEHAVIOR_CHANGE)
-        .setName("API Change might change runtime expected behavior")
-        .setSeverity(RulePriority.MAJOR)
-        .setDescription("Clirr reports this violation for situations where no link or runtime exception will occur," +
-            " but where the application may behave unexpectedly due to the changes that have occurred.");
+    newRepository.createRule(ClirrConstants.RULE_API_BREAK.rule())
+      .setName("API Change breaks the backward binary compatibility")
+      .setSeverity(Severity.CRITICAL)
+      .setHtmlDescription("Clirr reports this violation for cases where it is possible to get a run-time failure." +
+        " Whether one actually occurs can depend upon the way the library is called, ie changes reported as an error may" +
+        " in fact work when used as long as the patterns of use of the library do not trigger the failure situation.");
 
-    Rule newApiRule = Rule.create()
-        .setKey(ClirrConstants.RULE_NEW_API)
-        .setName("API Change adds new feature without breaking anything")
-        .setSeverity(RulePriority.INFO)
-        .setDescription("Clirr reports this information messages when new features have been added without breaking backward" +
-            " compatibility in any way.");
+    newRepository.createRule(ClirrConstants.RULE_API_BEHAVIOR_CHANGE.rule())
+      .setName("API Change might change runtime expected behavior")
+      .setSeverity(Severity.MAJOR)
+      .setHtmlDescription("Clirr reports this violation for situations where no link or runtime exception will occur," +
+        " but where the application may behave unexpectedly due to the changes that have occurred.");
 
-    return Arrays.asList(apiBreakRule, apiBehaviorChangeRule, newApiRule);
+    newRepository.createRule(ClirrConstants.RULE_NEW_API.rule())
+      .setName("API Change adds new feature without breaking anything")
+      .setSeverity(Severity.INFO)
+      .setHtmlDescription("Clirr reports this information messages when new features have been added without breaking backward" +
+        " compatibility in any way.");
+
+    newRepository.done();
+
   }
 
 }

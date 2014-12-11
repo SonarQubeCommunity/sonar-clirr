@@ -21,18 +21,18 @@
 package org.sonar.plugins.clirr;
 
 import org.apache.commons.lang.StringUtils;
-import org.sonar.api.BatchExtension;
+import org.sonar.api.BatchComponent;
+import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.rules.ActiveRule;
+import org.sonar.api.rule.RuleKey;
 
-public class ClirrConfiguration implements BatchExtension {
+public class ClirrConfiguration implements BatchComponent {
 
-  private RulesProfile profile;
+  private ActiveRules activeRules;
   private Settings settings;
 
-  public ClirrConfiguration(RulesProfile profile, Settings settings) {
-    this.profile = profile;
+  public ClirrConfiguration(ActiveRules activeRules, Settings settings) {
+    this.activeRules = activeRules;
     this.settings = settings;
   }
 
@@ -61,7 +61,7 @@ public class ClirrConfiguration implements BatchExtension {
     return getActiveRule(ClirrConstants.RULE_NEW_API) != null;
   }
 
-  ActiveRule getActiveRule(String key) {
-    return profile.getActiveRule(ClirrConstants.PLUGIN_KEY, key);
+  org.sonar.api.batch.rule.ActiveRule getActiveRule(RuleKey key) {
+    return activeRules.find(key);
   }
 }

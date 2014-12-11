@@ -23,16 +23,16 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FilePredicates;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.maven.DependsUponMavenPlugin;
 import org.sonar.api.batch.maven.MavenPluginHandler;
-import org.sonar.api.resources.Java;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.issue.Issuable;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.rules.ActiveRule;
-import org.sonar.api.rules.Violation;
-import org.sonar.api.scan.filesystem.FileQuery;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.plugins.java.api.JavaResourceLocator;
 
 import java.io.File;
@@ -45,19 +45,23 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
 
   private final ClirrConfiguration configuration;
   private final ClirrMavenPluginHandler clirrMavenHandler;
-  private final ModuleFileSystem fs;
+  private final FileSystem fs;
   private final JavaResourceLocator javaResourceLocator;
+  private final ResourcePerspectives perspectives;
 
-  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler, ModuleFileSystem fileSystem, JavaResourceLocator javaResourceLocator) {
+  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler, FileSystem fileSystem, JavaResourceLocator javaResourceLocator,
+    ResourcePerspectives perspectives) {
     this.configuration = configuration;
     this.clirrMavenHandler = mavenHandler;
     this.fs = fileSystem;
     this.javaResourceLocator = javaResourceLocator;
+    this.perspectives = perspectives;
   }
 
   @Override
   public boolean shouldExecuteOnProject(Project project) {
-    return !fs.files(FileQuery.onSource().onLanguage(Java.KEY)).isEmpty() && configuration.isActive();
+    FilePredicates p = fs.predicates();
+    return fs.hasFiles(p.and(p.hasType(Type.MAIN), p.hasLanguage("java"))) && configuration.isActive();
   }
 
   @Override
@@ -69,38 +73,45 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   public void analyse(Project project, SensorContext context) {
     InputStream input = null;
     try {
-      File report = new File(project.getFileSystem().getSonarWorkingDirectory(), ClirrConstants.RESULT_TXT);
+      File report = new File(fs.workDir(), ClirrConstants.RESULT_TXT);
       if (report.exists()) {
         input = new FileInputStream(report);
 
         ClirrTxtResultParser parser = new ClirrTxtResultParser();
-        List<ClirrViolation> violations = parser.parse(input, project.getFileSystem().getSourceCharset());
-        saveViolations(violations, context, project);
+        List<ClirrViolation> violations = parser.parse(input, fs.encoding());
+        saveIssues(violations, context, project);
 
       } else {
         LoggerFactory.getLogger(getClass()).info("Clirr report does not exist: " + report.getCanonicalPath());
       }
 
     } catch (IOException e) {
-      throw new SonarException("Clirr report can not be loaded.", e);
+      throw new IllegalStateException("Clirr report can not be loaded.", e);
 
     } finally {
       IOUtils.closeQuietly(input);
     }
   }
 
-  protected void saveViolations(final List<ClirrViolation> violations, final SensorContext context, final Project project) {
+  protected void saveIssues(final List<ClirrViolation> violations, final SensorContext context, final Project project) {
     for (ClirrViolation violation : violations) {
-      String ruleKey = violation.getRuleKey();
-      ActiveRule activeRule = configuration.getActiveRule(ruleKey);
+      RuleKey ruleKey = violation.getRuleKey();
+      org.sonar.api.batch.rule.ActiveRule activeRule = configuration.getActiveRule(ruleKey);
       if (activeRule != null) {
         javaResourceLocator.findResourceByClassName(violation.getAffectedClass());
         Resource resource = javaResourceLocator.findResourceByClassName(violation.getAffectedClass());
         if (resource == null) {
-          // Resource is not indexed (maybe a deleted API)
+          // Resource is not indexed (maybe a deleted API) so report on project
           resource = project;
         }
-        context.saveViolation(Violation.create(activeRule, resource).setMessage(violation.getMessage()));
+        Issuable issuable = perspectives.as(Issuable.class, resource);
+        if (issuable != null) {
+          issuable.addIssue(issuable.newIssueBuilder()
+            .ruleKey(violation.getRuleKey())
+            .message(violation.getMessage())
+            .build()
+            );
+        }
       }
     }
   }
