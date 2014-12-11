@@ -22,7 +22,7 @@ package org.sonar.plugins.clirr;
 import org.sonar.api.rule.Severity;
 import org.sonar.api.server.rule.RulesDefinition;
 
-public final class ClirrRulesRepository implements RulesDefinition {
+public final class ClirrRulesDefinition implements RulesDefinition {
 
   @Override
   public void define(Context context) {

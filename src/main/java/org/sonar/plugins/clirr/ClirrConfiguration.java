@@ -20,11 +20,12 @@
 
 package org.sonar.plugins.clirr;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.BatchComponent;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.config.Settings;
 import org.sonar.api.rule.RuleKey;
+
+import javax.annotation.CheckForNull;
 
 public class ClirrConfiguration implements BatchComponent {
 
@@ -37,31 +38,28 @@ public class ClirrConfiguration implements BatchComponent {
   }
 
   boolean isActive() {
-    return settings.getBoolean(ClirrConstants.API_PROPERTY)
+    return getReportPath() != null
       && (isApiBreakActive() || isApiBehaviorChangeActive() || isNewApiActive());
   }
 
-  String getComparisonVersion() {
-    return settings.getString(ClirrConstants.COMPARISON_VERSION_PROPERTY);
-  }
-
-  boolean hasComparisonVersion() {
-    return StringUtils.isNotBlank(getComparisonVersion());
-  }
-
   boolean isApiBreakActive() {
-    return getActiveRule(ClirrConstants.RULE_API_BREAK) != null;
+    return isActive(ClirrConstants.RULE_API_BREAK);
   }
 
   boolean isApiBehaviorChangeActive() {
-    return getActiveRule(ClirrConstants.RULE_API_BEHAVIOR_CHANGE) != null;
+    return isActive(ClirrConstants.RULE_API_BEHAVIOR_CHANGE);
   }
 
   boolean isNewApiActive() {
-    return getActiveRule(ClirrConstants.RULE_NEW_API) != null;
+    return isActive(ClirrConstants.RULE_NEW_API);
   }
 
-  org.sonar.api.batch.rule.ActiveRule getActiveRule(RuleKey key) {
-    return activeRules.find(key);
+  @CheckForNull
+  String getReportPath() {
+    return settings.getString(ClirrConstants.REPORT_PATH);
+  }
+
+  boolean isActive(RuleKey key) {
+    return activeRules.find(key) != null;
   }
 }

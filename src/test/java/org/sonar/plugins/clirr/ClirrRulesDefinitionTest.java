@@ -24,12 +24,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class ClirrRulesRepositoryTest {
+public class ClirrRulesDefinitionTest {
 
   @Test
   public void shouldCreateRules() {
     RulesDefinition.Context context = new RulesDefinition.Context();
-    new ClirrRulesRepository().define(context);
+    new ClirrRulesDefinition().define(context);
 
     assertThat(context.repository("clirr").rules()).hasSize(3);
   }

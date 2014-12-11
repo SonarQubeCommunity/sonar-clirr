@@ -20,21 +20,32 @@
 package org.sonar.plugins.clirr;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.resources.Project;
+import org.sonar.api.rule.RuleKey;
+import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.plugins.java.api.JavaResourceLocator;
+
+import java.io.File;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ClirrSensorTest {
+
+  @Rule
+  public TemporaryFolder temp = new TemporaryFolder();
 
   private ClirrConfiguration configuration;
   private ClirrSensor sensor;
@@ -44,7 +55,7 @@ public class ClirrSensorTest {
   public void setUp() {
     configuration = mock(ClirrConfiguration.class);
     fileSystem = new DefaultFileSystem();
-    sensor = new ClirrSensor(configuration, null, fileSystem, mock(JavaResourceLocator.class), mock(ResourcePerspectives.class));
+    sensor = new ClirrSensor(configuration, fileSystem, mock(JavaResourceLocator.class), mock(ResourcePerspectives.class), new PathResolver());
   }
 
   @Test
@@ -60,6 +71,19 @@ public class ClirrSensorTest {
 
     when(configuration.isActive()).thenReturn(true);
     assertThat(sensor.shouldExecuteOnProject(project)).isTrue();
+  }
+
+  @Test
+  public void analyse() throws Exception {
+    Project project = mock(Project.class);
+    when(configuration.getReportPath()).thenReturn(new File(ClirrSensorTest.class
+      .getResource("/clirr-report.txt").toURI()).getAbsolutePath());
+    fileSystem.setBaseDir(temp.newFolder());
+
+    when(configuration.isActive(any(RuleKey.class))).thenReturn(true);
+
+    sensor.analyse(project, mock(SensorContext.class));
+
   }
 
   @Test

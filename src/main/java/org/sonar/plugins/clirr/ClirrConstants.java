@@ -30,8 +30,5 @@ public interface ClirrConstants {
   RuleKey RULE_NEW_API = RuleKey.of(PLUGIN_KEY, "clirr-new-api");
   RuleKey RULE_API_BEHAVIOR_CHANGE = RuleKey.of(PLUGIN_KEY, "clirr-api-behavior-change");
 
-  String RESULT_TXT = "clirr-result.txt";
-  String COMPARISON_VERSION_PROPERTY = "sonar.clirr.comparisonVersion";
-
-  String API_PROPERTY = "sonar.clirr.api";
+  String REPORT_PATH = "sonar.clirr.reportPath";
 }

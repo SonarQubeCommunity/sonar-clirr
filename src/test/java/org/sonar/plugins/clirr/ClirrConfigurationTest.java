@@ -44,7 +44,7 @@ public class ClirrConfigurationTest {
     assertThat(conf.isActive()).isFalse();
 
     // clirr is still disabled
-    settings.setProperty(ClirrConstants.API_PROPERTY, true);
+    settings.setProperty(ClirrConstants.REPORT_PATH, "foo.txt");
     assertThat(conf.isActive()).isFalse();
 
     org.sonar.api.batch.rule.ActiveRule activeRule = mock(org.sonar.api.batch.rule.ActiveRule.class);
@@ -57,17 +57,6 @@ public class ClirrConfigurationTest {
 
     when(activeRules.find(ClirrConstants.RULE_API_BREAK)).thenReturn(activeRule);
     assertThat(conf.isActive()).isTrue();
-  }
-
-  @Test
-  public void should_get_comparison_version() throws Exception {
-    ClirrConfiguration conf = new ClirrConfiguration(activeRules, settings);
-    assertThat(conf.getComparisonVersion()).isNull();
-    assertThat(conf.hasComparisonVersion()).isFalse();
-
-    settings.setProperty(ClirrConstants.COMPARISON_VERSION_PROPERTY, "2.3");
-    assertThat(conf.getComparisonVersion()).isEqualTo("2.3");
-    assertThat(conf.hasComparisonVersion()).isTrue();
   }
 
   @Test

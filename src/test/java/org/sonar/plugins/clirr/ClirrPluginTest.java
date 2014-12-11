@@ -27,7 +27,7 @@ public class ClirrPluginTest {
 
   @Test
   public void defineExtensions() {
-    assertThat(new ClirrPlugin().getExtensions()).hasSize(7);
+    assertThat(new ClirrPlugin().getExtensions()).hasSize(6);
   }
 
 }

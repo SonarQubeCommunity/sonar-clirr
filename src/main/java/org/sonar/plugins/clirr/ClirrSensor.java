@@ -20,19 +20,20 @@
 package org.sonar.plugins.clirr;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile.Type;
-import org.sonar.api.batch.maven.DependsUponMavenPlugin;
-import org.sonar.api.batch.maven.MavenPluginHandler;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
+import org.sonar.api.scan.filesystem.PathResolver;
+import org.sonar.api.utils.MessageException;
 import org.sonar.plugins.java.api.JavaResourceLocator;
 
 import java.io.File;
@@ -41,21 +42,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
+public final class ClirrSensor implements Sensor {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ClirrSensor.class);
 
   private final ClirrConfiguration configuration;
-  private final ClirrMavenPluginHandler clirrMavenHandler;
   private final FileSystem fs;
   private final JavaResourceLocator javaResourceLocator;
   private final ResourcePerspectives perspectives;
+  private final PathResolver pathResolver;
 
-  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler, FileSystem fileSystem, JavaResourceLocator javaResourceLocator,
-    ResourcePerspectives perspectives) {
+  public ClirrSensor(ClirrConfiguration configuration, FileSystem fileSystem, JavaResourceLocator javaResourceLocator,
+    ResourcePerspectives perspectives, PathResolver pathResolver) {
     this.configuration = configuration;
-    this.clirrMavenHandler = mavenHandler;
     this.fs = fileSystem;
     this.javaResourceLocator = javaResourceLocator;
     this.perspectives = perspectives;
+    this.pathResolver = pathResolver;
   }
 
   @Override
@@ -65,15 +68,10 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   }
 
   @Override
-  public MavenPluginHandler getMavenPluginHandler(Project project) {
-    return clirrMavenHandler;
-  }
-
-  @Override
   public void analyse(Project project, SensorContext context) {
     InputStream input = null;
     try {
-      File report = new File(fs.workDir(), ClirrConstants.RESULT_TXT);
+      File report = pathResolver.relativeFile(fs.baseDir(), configuration.getReportPath());
       if (report.exists()) {
         input = new FileInputStream(report);
 
@@ -82,7 +80,7 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
         saveIssues(violations, context, project);
 
       } else {
-        LoggerFactory.getLogger(getClass()).info("Clirr report does not exist: " + report.getCanonicalPath());
+        throw MessageException.of("Clirr report does not exist: " + report.getCanonicalPath());
       }
 
     } catch (IOException e) {
@@ -96,8 +94,7 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   protected void saveIssues(final List<ClirrViolation> violations, final SensorContext context, final Project project) {
     for (ClirrViolation violation : violations) {
       RuleKey ruleKey = violation.getRuleKey();
-      org.sonar.api.batch.rule.ActiveRule activeRule = configuration.getActiveRule(ruleKey);
-      if (activeRule != null) {
+      if (configuration.isActive(ruleKey)) {
         javaResourceLocator.findResourceByClassName(violation.getAffectedClass());
         Resource resource = javaResourceLocator.findResourceByClassName(violation.getAffectedClass());
         if (resource == null) {
