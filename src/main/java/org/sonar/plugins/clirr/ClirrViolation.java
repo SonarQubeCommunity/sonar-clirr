@@ -20,21 +20,20 @@
 package org.sonar.plugins.clirr;
 
 import org.sonar.api.utils.SonarException;
-import org.sonar.java.api.JavaClass;
 
 public class ClirrViolation {
 
   private final String messageId;
   private final String message;
-  private final JavaClass resource;
   private final String severity;
   private Type type;
+  private final String affectedClass;
 
   public ClirrViolation(final String severity, final String messageId, final String message, final String affectedClass) {
     this.severity = severity;
-    this.resource = getResource(affectedClass);
     this.message = message;
     this.messageId = messageId;
+    this.affectedClass = affectedClass;
     for (final Type aType : Type.values()) {
       if (aType.getClirrSeverity().equals(severity)) {
         this.type = aType;
@@ -42,12 +41,8 @@ public class ClirrViolation {
     }
   }
 
-  private JavaClass getResource(final String className) {
-    return JavaClass.create(className);
-  }
-
-  public JavaClass getJavaClass() {
-    return resource;
+  public String getAffectedClass() {
+    return affectedClass;
   }
 
   public String getSeverity() {

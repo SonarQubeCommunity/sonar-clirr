@@ -62,7 +62,7 @@ public final class ClirrMavenPluginHandler implements MavenPluginHandler {
 
   @Override
   public String getVersion() {
-    return "2.2.2";
+    return "2.6.1";
   }
 
   @Override

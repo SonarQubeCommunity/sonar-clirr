@@ -44,6 +44,12 @@
       <email>simon.brandhof@sonarsource.com</email>
       <timezone>+1</timezone>
     </developer>
+    <developer>
+      <id>henryju</id>
+      <name>Julien Henry</name>
+      <email>julien.henry@sonarsource.com</email>
+      <timezone>+1</timezone>
+    </developer>
   </developers>
 
   <scm>
@@ -67,6 +73,7 @@
     <sonar.version>3.7</sonar.version>
     <sonar.pluginName>Clirr</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.clirr.ClirrPlugin</sonar.pluginClass>
+    <sonar-java.version>2.5</sonar-java.version>
   </properties>
 
   <dependencies>
@@ -77,9 +84,10 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-java-api</artifactId>
-      <version>${sonar.version}</version>
+      <groupId>org.codehaus.sonar-plugins.java</groupId>
+      <artifactId>sonar-java-plugin</artifactId>
+      <type>sonar-plugin</type>
+      <version>${sonar-java.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -105,4 +113,16 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.sonar</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <configuration>
+          <requirePlugins>java:${sonar-java.version}</requirePlugins>
+        </configuration>
+      </plugin>    
+    </plugins>
+  </build>
 </project>

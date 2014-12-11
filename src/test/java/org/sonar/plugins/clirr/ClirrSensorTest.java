@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.FileQuery;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.java.api.JavaResourceLocator;
 
 import java.io.File;
 import java.util.Arrays;
@@ -45,7 +46,7 @@ public class ClirrSensorTest {
   public void setUp() {
     configuration = mock(ClirrConfiguration.class);
     fileSystem = mock(ModuleFileSystem.class);
-    sensor = new ClirrSensor(configuration, null, fileSystem);
+    sensor = new ClirrSensor(configuration, null, fileSystem, mock(JavaResourceLocator.class));
   }
 
   @Test

@@ -33,7 +33,7 @@ import org.sonar.api.rules.Violation;
 import org.sonar.api.scan.filesystem.FileQuery;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
-import org.sonar.java.api.JavaClass;
+import org.sonar.plugins.java.api.JavaResourceLocator;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,11 +46,13 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
   private final ClirrConfiguration configuration;
   private final ClirrMavenPluginHandler clirrMavenHandler;
   private final ModuleFileSystem fs;
+  private final JavaResourceLocator javaResourceLocator;
 
-  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler, ModuleFileSystem fileSystem) {
+  public ClirrSensor(ClirrConfiguration configuration, ClirrMavenPluginHandler mavenHandler, ModuleFileSystem fileSystem, JavaResourceLocator javaResourceLocator) {
     this.configuration = configuration;
     this.clirrMavenHandler = mavenHandler;
     this.fs = fileSystem;
+    this.javaResourceLocator = javaResourceLocator;
   }
 
   @Override
@@ -92,11 +94,11 @@ public final class ClirrSensor implements Sensor, DependsUponMavenPlugin {
       String ruleKey = violation.getRuleKey();
       ActiveRule activeRule = configuration.getActiveRule(ruleKey);
       if (activeRule != null) {
-        JavaClass javaClass = violation.getJavaClass();
-        JavaClass indexedJavaClass = context.getResource(javaClass);
-        Resource resource = project;
-        if (indexedJavaClass != null) {
-          resource = context.getParent(indexedJavaClass);// parent is a Java file
+        javaResourceLocator.findResourceByClassName(violation.getAffectedClass());
+        Resource resource = javaResourceLocator.findResourceByClassName(violation.getAffectedClass());
+        if (resource == null) {
+          // Resource is not indexed (maybe a deleted API)
+          resource = project;
         }
         context.saveViolation(Violation.create(activeRule, resource).setMessage(violation.getMessage()));
       }

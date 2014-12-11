@@ -20,7 +20,6 @@
 package org.sonar.plugins.clirr;
 
 import org.junit.Test;
-import org.sonar.java.api.JavaClass;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +28,7 @@ public class ClirrViolationTest {
   @Test
   public void getAffectedClass() {
     ClirrViolation violation = new ClirrViolation("", "", "", this.getClass().getCanonicalName());
-    assertEquals(JavaClass.create("org.sonar.plugins.clirr.ClirrViolationTest"), violation.getJavaClass());
+    assertEquals("org.sonar.plugins.clirr.ClirrViolationTest", violation.getAffectedClass());
   }
 
   @Test
