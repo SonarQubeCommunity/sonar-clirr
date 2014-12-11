@@ -73,7 +73,7 @@
     <sonar.version>4.5.1</sonar.version>
     <sonar.pluginName>Clirr</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.clirr.ClirrPlugin</sonar.pluginClass>
-    <sonar-java.version>2.5</sonar-java.version>
+    <sonar-java.version>2.4</sonar-java.version>
   </properties>
 
   <dependencies>
