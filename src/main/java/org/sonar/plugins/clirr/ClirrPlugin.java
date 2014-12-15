@@ -30,7 +30,7 @@ import java.util.List;
   @Property(
     key = ClirrConstants.REPORT_PATH,
     name = "Report path",
-    description = "Path of the Clirr plain report file. Can be absolute or relative to module baseDir.",
+    description = "Path of the Clirr text report file. Can be absolute or relative to module baseDir.",
     project = true,
     module = true,
     global = false)
