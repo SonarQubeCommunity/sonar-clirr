@@ -20,8 +20,6 @@
 package org.sonar.plugins.clirr;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FilePredicates;
@@ -43,8 +41,6 @@ import java.io.InputStream;
 import java.util.List;
 
 public final class ClirrSensor implements Sensor {
-
-  private static final Logger LOG = LoggerFactory.getLogger(ClirrSensor.class);
 
   private final ClirrConfiguration configuration;
   private final FileSystem fs;
