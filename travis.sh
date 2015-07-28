@@ -16,7 +16,7 @@ then
 
   if [ "${SQ_VERSION}" == "DEV" ]
   then
-    travis_build_green "SonarSource/sonarqube" "master"
+    build_snapshot "SonarSource/sonarqube"
   fi
 
   cd its  
