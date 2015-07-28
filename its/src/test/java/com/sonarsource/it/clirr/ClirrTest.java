@@ -30,7 +30,6 @@ import org.junit.Test;
 import org.sonar.wsclient.issue.Issue;
 import org.sonar.wsclient.issue.IssueQuery;
 import org.sonar.wsclient.issue.Issues;
-import org.sonar.wsclient.services.ResourceQuery;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -79,9 +78,6 @@ public class ClirrTest {
     Issue issue = issues.list().get(0);
     assertThat(issue.ruleKey()).isEqualTo("clirr:clirr-api-break");
     assertThat(issue.componentKey()).isEqualTo("com.sonarsource.it.samples:simple-sample-clirr:src/main/java/sample/MyApi.java");
-
-    assertThat(orchestrator.getServer().getAdminWsClient().find(new ResourceQuery("com.sonarsource.it.samples:simple-sample-clirr")
-      .setMetrics("clirr_api_breaks")).getMeasureIntValue("clirr_api_breaks")).isEqualTo(1);
   }
 
 }

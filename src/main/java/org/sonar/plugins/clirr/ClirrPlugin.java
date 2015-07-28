@@ -19,12 +19,11 @@
  */
 package org.sonar.plugins.clirr;
 
+import java.util.Arrays;
+import java.util.List;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Properties({
   @Property(
@@ -39,7 +38,6 @@ public final class ClirrPlugin extends SonarPlugin {
 
   @Override
   public List getExtensions() {
-    return Arrays.asList(ClirrSensor.class, ClirrRulesDefinition.class,
-      ClirrDecorator.class, ClirrMetrics.class, ClirrConfiguration.class);
+    return Arrays.asList(ClirrSensor.class, ClirrRulesDefinition.class, ClirrConfiguration.class);
   }
 }
