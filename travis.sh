@@ -12,10 +12,6 @@ mvn verify -B -e -V
 
 if [ "${RUN_ITS}" == "true" ]
 then
-  # Strip version in file name to ease FileLocation in ITs
-  rm target/*-sources.jar
-  mv target/sonar-clirr-plugin-*.jar target/sonar-clirr-plugin.jar
-
   installTravisTools
 
   if [ "${SQ_VERSION}" == "DEV" ]

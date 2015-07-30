@@ -22,8 +22,11 @@ package com.sonarsource.it.clirr;
 import com.sonar.orchestrator.Orchestrator;
 import com.sonar.orchestrator.build.MavenBuild;
 import com.sonar.orchestrator.locator.FileLocation;
+import com.sonar.orchestrator.version.Version;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -35,9 +38,11 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class ClirrTest {
 
+  private static Version artifactVersion;
+
   @ClassRule
   public static Orchestrator orchestrator = Orchestrator.builderEnv()
-    .addPlugin(FileLocation.of("../target/sonar-clirr-plugin.jar"))
+    .addPlugin(FileLocation.of("../target/sonar-clirr-plugin-" + artifactVersion() + ".jar"))
     .setOrchestratorProperty("javaVersion", "LATEST_RELEASE")
     .addPlugin("java")
     .build();
@@ -45,8 +50,21 @@ public class ClirrTest {
   @Before
   public void setUp() throws Exception {
     orchestrator.resetData();
-
     orchestrator.getServer().restoreProfile(FileLocation.ofClasspath("/clirr-profile.xml"));
+  }
+
+  private static Version artifactVersion() {
+    if (artifactVersion == null) {
+      try (FileInputStream fis = new FileInputStream(new File("../target/maven-archiver/pom.properties"))) {
+        Properties props = new Properties();
+        props.load(fis);
+        artifactVersion = Version.create(props.getProperty("version"));
+        return artifactVersion;
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
+    }
+    return artifactVersion;
   }
 
   @Test
@@ -59,9 +77,9 @@ public class ClirrTest {
 
     build = MavenBuild.create(new File("projects/sample-v2/pom.xml"))
       .setProperty("textOutputFile", "target/clirr-report.txt")
-      .setProperty("htmlReport", "false")
+      .setProperty("failOnError", "false")
       .setProperty("comparisonVersion", "1.0")
-      .setGoals("clean package clirr:clirr");
+      .setGoals("clean package clirr:check-no-fork");
     orchestrator.executeBuild(build);
 
     build = MavenBuild.create(new File("projects/sample-v2/pom.xml"))
