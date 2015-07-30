@@ -59,6 +59,7 @@ public class ClirrTest {
 
     build = MavenBuild.create(new File("projects/sample-v2/pom.xml"))
       .setProperty("textOutputFile", "target/clirr-report.txt")
+      .setProperty("htmlReport", "false")
       .setProperty("comparisonVersion", "1.0")
       .setGoals("clean package clirr:clirr");
     orchestrator.executeBuild(build);
@@ -71,13 +72,13 @@ public class ClirrTest {
     orchestrator.executeBuild(build);
 
     Issues issues = orchestrator.getServer().adminWsClient().issueClient().find(IssueQuery.create()
-    // .componentRoots("com.sonarsource.it.samples:simple-sample-clirr")
+    // .componentRoots("com.sonarsource.it.clirr:simple-sample-clirr")
     );
     assertThat(issues.size()).isEqualTo(1);
 
     Issue issue = issues.list().get(0);
     assertThat(issue.ruleKey()).isEqualTo("clirr:clirr-api-break");
-    assertThat(issue.componentKey()).isEqualTo("com.sonarsource.it.samples:simple-sample-clirr:src/main/java/sample/MyApi.java");
+    assertThat(issue.componentKey()).isEqualTo("com.sonarsource.it.clirr:simple-sample-clirr:src/main/java/sample/MyApi.java");
   }
 
 }
