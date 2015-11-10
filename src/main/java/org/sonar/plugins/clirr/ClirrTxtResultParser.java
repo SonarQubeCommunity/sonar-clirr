@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.clirr;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,6 +27,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.commons.io.IOUtils;
 
 public final class ClirrTxtResultParser {
 
@@ -43,7 +42,7 @@ public final class ClirrTxtResultParser {
   }
 
   public List<ClirrViolation> parse(final Reader input) throws IOException {
-    List<ClirrViolation> violations = new ArrayList<ClirrViolation>();
+    List<ClirrViolation> violations = new ArrayList<>();
     List<String> lines = IOUtils.readLines(input);
     for (String line : lines) {
       String[] split = line.split(Pattern.quote(":"));
@@ -54,8 +53,8 @@ public final class ClirrTxtResultParser {
     return violations;
   }
 
-  private ClirrViolation parseViolationLine(String[] split) {
+  private static ClirrViolation parseViolationLine(String[] split) {
     return new ClirrViolation(split[IDX_SEVERITY].trim(), split[IDX_ERRCODE].trim(),
-        split[IDX_MESSAGE].trim(), split[IDX_CLASS].trim());
+      split[IDX_MESSAGE].trim(), split[IDX_CLASS].trim());
   }
 }
