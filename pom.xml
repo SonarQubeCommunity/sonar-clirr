@@ -11,7 +11,7 @@
   <groupId>org.sonarsource.clirr</groupId>
   <artifactId>sonar-clirr-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.3</version>
 
   <name>SonarQube Clirr Plugin</name>
   <description>Checks Java libraries for binary and source compatibility with older releases</description>
@@ -58,6 +58,7 @@
     <connection>scm:git:git@github.com:SonarCommunity/sonar-clirr.git</connection>
     <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-clirr.git</developerConnection>
     <url>https://github.com/SonarCommunity/sonar-clirr</url>
+    <tag>1.3</tag>
   </scm>
 
   <issueManagement>
