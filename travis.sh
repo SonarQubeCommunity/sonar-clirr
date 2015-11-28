@@ -71,6 +71,8 @@ IT)
   installTravisTools
   start_xvfb
 
+  ./quick-build.sh
+
   if [ "${SQ_VERSION}" == "DEV" ];
   then
     build_snapshot "SonarSource/sonarqube"
