@@ -71,7 +71,8 @@ IT)
   installTravisTools
   start_xvfb
 
-  if [ "$SQ_VERSION" = "DEV" ]; then
+  if [ "${SQ_VERSION}" == "DEV" ];
+  then
     build_snapshot "SonarSource/sonarqube"
   fi
 
