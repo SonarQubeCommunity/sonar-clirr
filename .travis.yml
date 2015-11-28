@@ -10,16 +10,17 @@ script:
 
 env:
   matrix:
-    - RUN_ITS=false
-    - RUN_ITS=true SQ_VERSION=LTS
-    - RUN_ITS=true SQ_VERSION=DEV
+    - TARGET=CI
+    - TARGET=IT SQ_VERSION=LTS
+    - TARGET=IT SQ_VERSION=DEV
 
 matrix:
   fast_finish: true
 
 cache:
   directories:
-    - '$HOME/.m2/repository'
+    - $HOME/.m2/repository
+    - $HOME/.sonar
 
 before_cache:
   - rm -rf $HOME/.m2/repository/com/sonarsource/it/clirr
