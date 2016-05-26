@@ -1,4 +1,5 @@
 # SonarQube Clirr Plugin
+[![Build Status](https://api.travis-ci.org/SonarQubeCommunity/sonar-clirr.svg)](https://travis-ci.org/SonarQubeCommunity/sonar-clirr)
 
 ## Description / Features
 [Clirr](http://clirr.sourceforge.net/) checks Java libraries for binary and source compatibility with older releases. In a continuous integration process Clirr can automatically prevent accidental introduction of binary or source compatibility problems.
