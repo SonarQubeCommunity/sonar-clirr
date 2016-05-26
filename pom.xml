@@ -15,6 +15,7 @@
 
   <name>SonarQube Clirr Plugin</name>
   <description>Checks Java libraries for binary and source compatibility with older releases</description>
+  <url>http://redirect.sonarsource.com/plugins/clirr.html</url>
   <inceptionYear>2009</inceptionYear>
   <organization>
     <name>SonarSource</name>
