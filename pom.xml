@@ -15,7 +15,6 @@
 
   <name>SonarQube Clirr Plugin</name>
   <description>Checks Java libraries for binary and source compatibility with older releases</description>
-  <url>http://redirect.sonarsource.com/plugins/clirr.html</url>
   <inceptionYear>2009</inceptionYear>
   <organization>
     <name>SonarSource</name>
@@ -55,19 +54,19 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:SonarCommunity/sonar-clirr.git</connection>
-    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-clirr.git</developerConnection>
-    <url>https://github.com/SonarCommunity/sonar-clirr</url>
+    <connection>scm:git:git@github.com:SonarQubeCommunity/sonar-clirr.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarQubeCommunity/sonar-clirr.git</developerConnection>
+    <url>https://github.com/SonarQubeCommunity/sonar-clirr</url>
     <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.sonarsource.com/browse/SONARCLIRR</url>
+    <system>GitHub Issues</system>
+    <url>https://github.com/SonarQubeCommunity/sonar-clirr/issues</url>
   </issueManagement>
   <ciManagement>
     <system>Travis</system>
-    <url>https://travis-ci.org/SonarSource/sonar-clirr</url>
+    <url>https://travis-ci.org/SonarQubeCommunity/sonar-clirr</url>
   </ciManagement>
 
 
