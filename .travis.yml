@@ -8,15 +8,6 @@ jdk:
 script: 
   - ./travis.sh
 
-env:
-  matrix:
-    - TARGET=CI
-    - TARGET=IT SQ_VERSION=LTS
-    - TARGET=IT SQ_VERSION=DEV
-
-matrix:
-  fast_finish: true
-
 cache:
   directories:
     - $HOME/.m2/repository
