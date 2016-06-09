@@ -3,7 +3,8 @@ sudo: false
 install: true
 
 jdk:
-  - oraclejdk7
+  # SonarQube 5.6 LTS requires Java 8
+  - oraclejdk8
 
 script: 
   - ./travis.sh
@@ -16,5 +17,7 @@ cache:
 before_cache:
   - rm -rf $HOME/.m2/repository/com/sonarsource/it/clirr
 
-notifications:
-  email: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer

@@ -12,9 +12,6 @@ mvn install -B -e -V
 
 # execute integration tests
 
-# SonarQube 5.6 LTS requires Java 8
-jdk_switcher use oraclejdk8
-
 # enable xvfb for selenium tests
 installTravisTools
 start_xvfb
